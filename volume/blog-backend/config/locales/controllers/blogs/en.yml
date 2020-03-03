@@ -1,0 +1,4 @@
+en:
+  controllers:
+    blogs:
+      not_created: "Blog not created"
