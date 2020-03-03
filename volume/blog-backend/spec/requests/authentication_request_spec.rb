@@ -18,6 +18,11 @@ RSpec.describe "Authentications", type: :request do
         expect(json_response["username"]).to eq(user.username)
       end
 
+      it "responds with user's access_level" do
+        json_response = JSON.parse(response.body)
+        expect(json_response["access_level"]).to eq(user.access_level)
+      end
+
       it "responds with a token related to the user id" do
         json_response = JSON.parse(response.body)
         payload = JsonWebToken.decode(json_response["token"])

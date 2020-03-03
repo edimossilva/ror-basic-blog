@@ -3,4 +3,6 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :password,
             length: { minimum: 3 }
+  
+  enum access_level: [:registred, :admin]
 end
