@@ -1,4 +1,6 @@
 class BlogsController < ApplicationController
+  before_action :authorize_request, :create
+
   def create
     blog = Blog.create(blog_params)
     if blog.valid?
