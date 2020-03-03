@@ -25,6 +25,7 @@ services:
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
       BUNDLE_PATH: "/home/edimossilva/.gems"
       HISTFILE: /home/edimossilva/.bashhistory
+      RAILS_MASTER_KEY: "${RAILS_MASTER_KEY}"
     tty: true
     command: bash
     ports:
