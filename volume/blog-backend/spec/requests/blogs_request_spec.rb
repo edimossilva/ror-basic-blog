@@ -20,7 +20,7 @@ RSpec.describe "Blogs", type: :request do
 
     context "When receive valida data" do
       before do 
-        post "/blogs", params: { name: name, is_private: is_private }, headers: headers
+        post "/blogs", params: { name: name, is_private: is_private, user_id: user.id }, headers: headers
       end
       
       it 'responds :created' do
@@ -38,16 +38,16 @@ RSpec.describe "Blogs", type: :request do
       context 'when token is invalid' do
         context 'when token has invalid decode' do
           before do 
-            post "/blogs", params: { name: name, is_private: is_private }, headers: invalid_decode_headers
+            post "/blogs", params: { name: name, is_private: is_private, user_id: user.id }, headers: invalid_decode_headers
           end
           it 'responds :unauthorized' do
             expect(response).to have_http_status(:unauthorized)
           end
         end
         
-        context 'when user is not' do
+        context 'when user is not valid' do
           before do 
-            post "/blogs", params: { name: name, is_private: is_private }, headers: invalid_user_id_headers
+            post "/blogs", params: { name: name, is_private: is_private, user_id: user.id }, headers: invalid_user_id_headers
           end
           it 'responds :unauthorized' do
             expect(response).to have_http_status(:unauthorized)
@@ -56,28 +56,53 @@ RSpec.describe "Blogs", type: :request do
       end
 
       context 'when blog data is invalid' do
-        before do 
-          post "/blogs", params: { name: "", is_private: is_private }, headers: headers
+        context 'when name is empty' do
+          before do 
+            post "/blogs", params: { name: "", is_private: is_private, user_id: user.id }, headers: headers
+          end
+          
+          it 'responds :unprocessable_entity' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+    
+          it 'contains error messages' do
+            json_response = JSON.parse(response.body)
+            expect(json_response["error_message"]).to eq("Blog not created")
+          end
+    
+          it 'contains 1 error' do
+            json_response = JSON.parse(response.body)
+            expect(json_response["errors"].length).to eq(1)
+          end
+    
+          it 'error is name: cant be empty' do
+            json_response = JSON.parse(response.body)
+            expect(json_response["errors"]["name"][0]).to eq("can't be blank")
+          end
         end
-        
-        it 'responds :unprocessable_entity' do
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-  
-        it 'contains error messages' do
-          json_response = JSON.parse(response.body)
-          expect(json_response["error_message"]).to eq("Blog not created")
-          expect(json_response["errors"].length).to eq(1)
-        end
-  
-        it 'contains 1 error' do
-          json_response = JSON.parse(response.body)
-          expect(json_response["errors"].length).to eq(1)
-        end
-  
-        it 'error is name: cant be empty' do
-          json_response = JSON.parse(response.body)
-          expect(json_response["errors"]["name"][0]).to eq("can't be blank")
+        context 'when user_id is empty' do
+          before do 
+            post "/blogs", params: { name: name, is_private: is_private, user_id: "" }, headers: headers
+          end
+          
+          it 'responds :unprocessable_entity' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+    
+          it 'contains error messages' do
+            json_response = JSON.parse(response.body)
+            expect(json_response["error_message"]).to eq("Blog not created")
+          end
+    
+          it 'contains 1 error' do
+            json_response = JSON.parse(response.body)
+            expect(json_response["errors"].length).to eq(1)
+          end
+    
+          it 'error is name: cant be empty' do
+            json_response = JSON.parse(response.body)
+            expect(json_response["errors"]["user"][0]).to eq("must exist")
+          end
         end
       end
     end

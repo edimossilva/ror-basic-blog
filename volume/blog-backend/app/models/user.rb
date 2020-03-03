@@ -5,4 +5,6 @@ class User < ApplicationRecord
             length: { minimum: 3 }
   
   enum access_level: [:registred, :admin]
+  
+  has_many :blogs, dependent: :destroy
 end
