@@ -12,7 +12,9 @@ services:
       - "5432:5432"
 
   rails:
-    build: .
+    build:
+      context: "."
+      dockerfile: "Dockerfile_rails"
     volumes:
       - ./volume:/home/edimossilva/development/volume
       - ./config/gems:/home/edimossilva/.gems
@@ -30,6 +32,16 @@ services:
     command: bash
     ports:
       - "3000:3000"
+  vue:
+    build:
+      context: "."
+      dockerfile: "Dockerfile_vue"
+    volumes:
+      - ./volume:/home/edimossilva/development/volume
+    ports:
+      - "8080:8080"
+    tty: true
+    command: bash
 
 # docker-compose build
 # docker-compose up

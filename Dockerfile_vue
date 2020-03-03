@@ -1,0 +1,7 @@
+FROM node:10
+
+#using default volume
+WORKDIR /home/edimossilva/development/volume
+
+# utils
+RUN yarn global add @vue/cli
