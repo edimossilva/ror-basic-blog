@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./config/postgres-data:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    ports:
+      - "5432:5432"
+
+  rails:
+    build: .
+    volumes:
+      - ./volume:/home/edimossilva/development/volume
+      - ./config/gems:/home/edimossilva/.gems
+      - ./config/bundle:/home/edimossilva/.bundle
+      - ./config/bash/.bashrc:/home/edimossilva/.bashrc
+      - ./config/bash/.bashhistory:/home/edimossilva/.bashhistory
+    depends_on:
+      - db
+    environment:
+      RUBYOPT: "-W:no-deprecated -W:no-experimental"
+      BUNDLE_PATH: "/home/edimossilva/.gems"
+      HISTFILE: /home/edimossilva/.bashhistory
+    tty: true
+    command: bash
+    ports:
+      - "3000:3000"
+
+# docker-compose build
+# docker-compose up
+# docker exec -it dockerrails_rails_1 bash
+# railss
