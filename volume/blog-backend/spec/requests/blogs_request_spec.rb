@@ -108,7 +108,7 @@ RSpec.describe "Blogs", type: :request do
     end
   end
 
-  describe "#destroy" do
+  describe "3.ii - #destroy" do
     context 'when blog not found' do
       let!(:admin_user_blog) { create(:blog, :with_admin_user) }
       let!(:admin_user) { admin_user_blog.user }
