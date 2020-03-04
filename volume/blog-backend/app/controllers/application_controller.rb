@@ -38,12 +38,4 @@ class ApplicationController < ActionController::API
   def render_unauthorized
     render status: :unauthorized
   end
-
-  def destroy_params
-    params.permit(:id)[:id]
-  end
-
-  def show_params
-    params.permit(:id)[:id]
-  end
 end

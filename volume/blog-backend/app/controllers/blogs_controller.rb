@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
   end
 
   def destroy
-    blog = Blog.find_by_id(destroy_params)
+    blog = Blog.find_by(id: destroy_params[:id])
     return render_not_found(Blog, destroy_params) if (blog.nil?)
     
     if (BlogAccessLevel.can_delete?(@current_user, blog))
@@ -24,7 +24,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    blog = Blog.find_by_id(show_params)
+    blog = Blog.find_by(id: show_params[:id])
     return render_not_found(Blog, show_params) if (blog.nil?)
     
     if (BlogAccessLevel.can_show?(@current_user, blog))
@@ -38,5 +38,13 @@ class BlogsController < ApplicationController
   
   def create_params
     params.permit(:name, :is_private, :user_id)
+  end
+
+  def destroy_params
+    params.permit(:id)
+  end
+
+  def show_params
+    params.permit(:id)
   end
 end

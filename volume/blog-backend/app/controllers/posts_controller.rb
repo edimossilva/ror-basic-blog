@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = Post.find_by_id(destroy_params)
+    post = Post.find_by(id: destroy_params[:id], blog_id:destroy_params[:blog_id])
     return render_not_found(Post, destroy_params) if (post.nil?)
     
     if (PostAccessLevel.can_delete?(@current_user, post))
@@ -27,5 +27,13 @@ class PostsController < ApplicationController
   private 
   def create_params
     params.permit(:title, :blog_id)
+  end
+
+  def destroy_params
+    params.permit(:id, :blog_id)
+  end
+
+  def show_params
+    params.permit(:id, :blog_id)
   end
 end

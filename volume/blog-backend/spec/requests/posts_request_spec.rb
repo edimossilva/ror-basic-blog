@@ -155,7 +155,7 @@ RSpec.describe "Posts", type: :request do
       context 'it destroys' do
         context 'when post belongs to himself' do
           before do 
-            delete "/blogs/#{admin_user_blog1.id}/posts/#{registred_post1.id}", headers: registred_user_headers1
+            delete "/blogs/#{registred_user_blog1.id}/posts/#{registred_post1.id}", headers: registred_user_headers1
           end
           
           it 'responds :no_content' do
@@ -167,7 +167,7 @@ RSpec.describe "Posts", type: :request do
       context 'it does NOT destroys' do
         context 'when post belongs other user' do
           before do 
-            delete "/blogs/#{admin_user_blog1.id}/posts/#{post2.id}", headers: registred_user_headers1
+            delete "/blogs/#{registred_user_blog1.id}/posts/#{post2.id}", headers: registred_user_headers1
           end
           
           it 'responds :unauthorized' do
@@ -191,7 +191,7 @@ RSpec.describe "Posts", type: :request do
 
         context 'when post belongs to registred user' do
           before do 
-            delete "/blogs/#{admin_user_blog1.id}/posts/#{registred_post1.id}", headers: admin_user_headers1
+            delete "/blogs/#{registred_user_blog1.id}/posts/#{registred_post1.id}", headers: admin_user_headers1
           end
           
           it 'responds :no_content' do
@@ -203,7 +203,7 @@ RSpec.describe "Posts", type: :request do
       context 'it does NOT destroys' do
         context 'when post belongs other admin user' do
           before do 
-            delete "/blogs/#{admin_user_blog1.id}/posts/#{admin_post2.id}", headers: admin_user_headers1
+            delete "/blogs/#{admin_user_blog2.id}/posts/#{admin_post2.id}", headers: admin_user_headers1
           end
           
           it 'responds :unauthorized' do
