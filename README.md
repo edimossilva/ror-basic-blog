@@ -24,7 +24,8 @@
       
       - [ ] frontend
    1. Delete their posts
-      - [ ] backend
+      - [X] backend
+      
       - [ ] frontend
    1. Read any blog
       - [X] backend
@@ -43,7 +44,8 @@
       
       - [ ] frontend
    1. Delete posts that don’t belong to other admins
-      - [ ] backend
+      - [X] backend
+      
       - [ ] frontend
    1. Delete comments that don’t belong to other admins
       - [ ] backend
