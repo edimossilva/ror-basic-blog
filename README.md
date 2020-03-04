@@ -20,7 +20,8 @@
       - [ ] backend
       - [ ] frontend
    1. Create Posts for their blogs
-      - [ ] backend
+      - [X] backend
+      
       - [ ] frontend
    1. Delete their posts
       - [ ] backend
