@@ -213,4 +213,108 @@ RSpec.describe "Posts", type: :request do
       end
     end
   end
+
+  describe '#show' do
+    let!(:user_blog1) { create(:blog, :public) }
+    let!(:user1) { user_blog1.user }
+    let!(:post1) { create(:post, blog: user_blog1, user: user1)  }
+    let!(:user_token1) { JsonWebToken.encode(user_id: user1.id) }
+    
+    let!(:user_headers1) { 
+      { "Authorization" => user_token1 } 
+    }
+
+    context '1.i - when user is non-registered' do
+      context 'and blog is public' do
+        let!(:public_blog) { create(:blog, :public) }
+        let!(:public_user) { user_blog1.user }
+        let!(:public_post) { create(:post, blog: public_blog, user: public_user)  }
+
+        before do 
+          get "/blogs/#{public_blog.id}/posts/#{public_post.id}"
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'and blog is private' do
+        let!(:private_blog) { create(:blog, :private) }
+        let!(:private_user) { private_blog.user }
+        let!(:private_post) { create(:post, blog: private_blog, user: private_user)  }
+        
+        before do 
+          get "/blogs/#{private_blog.id}/posts/#{private_post.id}"
+        end
+        
+        it 'responds :unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+
+    context 'when user is registered' do
+      let!(:registered_blog) { create(:blog, :with_registred_user, :private) }
+      let!(:registered_user) { registered_blog.user }
+      let!(:registered_post) { create(:post, blog: registered_blog, user: registered_user)  }
+      let!(:registered_token) { JsonWebToken.encode(user_id: registered_user.id) }
+  
+      let!(:registered_headers) { 
+        { "Authorization" => registered_token } 
+      }
+
+      context 'and blog belongs to himself' do
+        before do 
+          get "/blogs/#{registered_blog.id}/posts/#{registered_post.id}", headers: registered_headers
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'and blog belongs to another user' do
+        before do 
+          get "/blogs/#{user_blog1.id}/posts/#{post1.id}", headers: registered_headers
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+
+    context 'when user is admin' do
+      let!(:admin_user_blog) { create(:blog, :with_admin_user) }
+      let!(:admin_user) { admin_user_blog.user }
+      let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+      let!(:admin_post) { create(:post, blog: admin_user_blog, user: admin_user)  }
+
+      
+      let!(:admin_user_headers) { 
+        { "Authorization" => admin_user_token } 
+      }
+
+      context 'and blog belongs to himself' do
+        before do 
+          get "/blogs/#{admin_user_blog.id}/posts/#{admin_post.id}", headers: admin_user_headers
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'and blog belongs to another user' do
+        before do 
+          get "/blogs/#{user_blog1.id}/posts/#{post1.id}", headers: admin_user_headers
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+  end
 end

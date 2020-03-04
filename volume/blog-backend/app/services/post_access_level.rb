@@ -8,6 +8,11 @@ class PostAccessLevel
     return can_admin_delete?(user, post) if user.admin? 
   end
 
+  def self.can_show?(user, post)
+    return can_user_show?(user, post) if user.nil?
+    true
+  end
+
   private
 
   def self.can_user_create?(user, post)
@@ -20,5 +25,9 @@ class PostAccessLevel
 
   def self.can_admin_delete?(user, post)
     user.is_owner?(post) || post.user_registred?
+  end
+
+  def self.can_user_show?(user, post)
+    BlogAccessLevel.can_show?(user, post.blog)
   end
 end
