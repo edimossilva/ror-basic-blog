@@ -5,7 +5,7 @@ FactoryBot.define do
     is_private { Faker::Boolean.boolean }
     user_id { create(:user).id }
 
-    trait :with_regular_user do
+    trait :with_registred_user do
       user_id { create(:user, :registred).id }
     end
 

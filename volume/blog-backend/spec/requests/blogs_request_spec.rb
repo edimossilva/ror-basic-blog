@@ -5,11 +5,11 @@ RSpec.describe "Blogs", type: :request do
     let!(:name) { Faker::Name.name }
     let!(:is_private) { Faker::Boolean.boolean }
     let!(:user) { create :user }
-    let!(:regular_token) { JsonWebToken.encode(user_id: user.id) }
+    let!(:registred_token) { JsonWebToken.encode(user_id: user.id) }
     let!(:invalid_token) { JsonWebToken.encode(user_id: -1) }
     
     let!(:headers) { 
-      { "Authorization" => regular_token } 
+      { "Authorization" => registred_token } 
     }
     let!(:invalid_decode_headers) { 
       { "Authorization" => "invalid_token" } 
@@ -129,8 +129,8 @@ RSpec.describe "Blogs", type: :request do
           end
         end
         
-        context 'when blog belongs to regular user' do
-          let!(:regular_user_blog) { create(:blog, :with_regular_user) }
+        context 'when blog belongs to registred user' do
+          let!(:registred_user_blog) { create(:blog, :with_registred_user) }
           
           let!(:admin_user) { create(:user, :admin) }
           let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
@@ -140,7 +140,7 @@ RSpec.describe "Blogs", type: :request do
           }
           
           before do 
-            delete "/blogs/#{regular_user_blog.id}", headers: admin_user_headers
+            delete "/blogs/#{registred_user_blog.id}", headers: admin_user_headers
           end
           
           it 'responds :no_content' do
