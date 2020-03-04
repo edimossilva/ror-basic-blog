@@ -26,7 +26,8 @@
       - [ ] backend
       - [ ] frontend
    1. Read any blog
-      - [ ] backend
+      - [X] backend
+      
       - [ ] frontend
    1. Delete comments on their blogs written by non-registered visitors or non-admin users
       - [ ] backend
