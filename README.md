@@ -36,7 +36,8 @@
       - [ ] backend
       - [ ] frontend
    1. Delete blogs that don’t belong to other admins
-      - [ ] backend
+      - [X] backend 
+      
       - [ ] frontend
    1. Delete posts that don’t belong to other admins
       - [ ] backend
