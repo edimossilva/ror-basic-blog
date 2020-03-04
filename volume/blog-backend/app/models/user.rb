@@ -9,8 +9,8 @@ class User < ApplicationRecord
   has_many :blogs, dependent: :destroy
   has_many :posts, dependent: :destroy
 
-  def is_owner?(blog)
-    blog.user == self
+  def is_owner?(entity)
+    entity.user == self
   end
   
   def has_access_level?

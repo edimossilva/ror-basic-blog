@@ -1,7 +1,5 @@
 class BlogsController < ApplicationController
-  before_action :authorize_request, only: [:create, :destroy]
-
-  skip_before_action :authorize_request, only: [:show,]
+  skip_before_action :authorize_request, only: [:show]
   before_action :public_request, only: [:show]
 
   def create
