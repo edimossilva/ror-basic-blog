@@ -11,4 +11,17 @@ class ApplicationController < ActionController::API
       render json: { errors: e.message }, status: :unauthorized
     end
   end
+
+  def render_not_found(klass, id)
+    error_message = "#{klass.name} not found with id:#{id}"
+    render json: { error_message: error_message }, status: :not_found
+  end
+
+  def render_unauthorized
+    render status: :unauthorized
+  end
+
+  def render_destroyed
+    render status: :no_content
+  end
 end
