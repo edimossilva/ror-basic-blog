@@ -232,6 +232,39 @@ RSpec.describe "Blogs", type: :request do
         end
       end
     end
+
+    context '2.iv - when user is registered' do
+      let!(:registred_user_blog) { create(:blog, :with_registred_user) }
+      let!(:registred_user) { registred_user_blog.user }
+      let!(:registred_user_token) { JsonWebToken.encode(user_id: registred_user.id) }
       
+      let!(:registred_user_headers) { 
+        { "Authorization" => registred_user_token } 
+      }
+      
+      context 'and blog is public' do
+        let!(:public_blog) { create(:blog, :public) }
+        
+        before do 
+          get "/blogs/#{public_blog.id}", headers: registred_user_headers
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'and blog is private' do
+        let!(:private_blog) { create(:blog, :private) }
+        
+        before do 
+          get "/blogs/#{private_blog.id}", headers: registred_user_headers
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
   end
 end

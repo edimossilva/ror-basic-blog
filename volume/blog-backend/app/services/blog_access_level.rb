@@ -6,7 +6,7 @@ class BlogAccessLevel
 
   def self.can_show?(user, blog)
     return nonregistred_can_view?(user, blog) if user.nil?
-    false
+    true
   end
 
   private
