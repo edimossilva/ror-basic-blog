@@ -4,10 +4,6 @@ class BlogAccessLevel
     false
   end
 
-  def self.decode(token)
-    decoded = JWT.decode(token, SECRET_KEY)[0]
-    HashWithIndifferentAccess.new decoded
-  end
   private
 
   def self.admin_can_delete?(user, blog)
