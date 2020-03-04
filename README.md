@@ -2,7 +2,8 @@
 
 1. Allows non-registered visitors to
    1. Read any blog that is not ‘private’
-      - [ ] backend
+      - [X] backend
+      
       - [ ] frontend
    1. Read any post that belong to the blogs they can read
       - [ ] backend
