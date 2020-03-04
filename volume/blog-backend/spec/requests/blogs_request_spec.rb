@@ -109,6 +109,24 @@ RSpec.describe "Blogs", type: :request do
   end
 
   describe "#destroy" do
+    context 'when blog not found' do
+      let!(:admin_user_blog) { create(:blog, :with_admin_user) }
+      let!(:admin_user) { admin_user_blog.user }
+      let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+      
+      let!(:admin_user_headers) { 
+        { "Authorization" => admin_user_token } 
+      }
+      
+      before do 
+        delete "/blogs/-1", headers: admin_user_headers
+      end
+      
+      it 'responds :not_found' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+    
     context 'when user is admin' do
       context 'it destroys' do
         context 'when blog belongs to himself' do
