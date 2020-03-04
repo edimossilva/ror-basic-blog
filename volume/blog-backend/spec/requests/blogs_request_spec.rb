@@ -204,6 +204,34 @@ RSpec.describe "Blogs", type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
-    
+  end
+
+  describe "#show" do
+    context '1.i - when user is non-registered' do
+      context 'and blog is public' do
+        let!(:public_blog) { create(:blog, :public) }
+        
+        before do 
+          get "/blogs/#{public_blog.id}"
+        end
+        
+        it 'responds :ok' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'and blog is private' do
+        let!(:private_blog) { create(:blog, :private) }
+        
+        before do 
+          get "/blogs/#{private_blog.id}"
+        end
+        
+        it 'responds :unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+      
   end
 end

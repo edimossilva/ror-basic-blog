@@ -12,5 +12,13 @@ FactoryBot.define do
     trait :with_admin_user do
       user_id { create(:user, :admin).id }
     end
+
+    trait :public do
+      is_private { false }
+    end
+
+    trait :private do
+      is_private { true }
+    end
   end
 end

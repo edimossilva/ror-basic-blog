@@ -1,6 +1,9 @@
 class BlogsController < ApplicationController
   before_action :authorize_request, only: [:create, :destroy]
 
+  skip_before_action :authorize_request, only: [:show,]
+  before_action :public_request, only: [:show]
+
   def create
     blog = Blog.create(create_params)
     if blog.valid?
@@ -22,6 +25,17 @@ class BlogsController < ApplicationController
     end
   end
 
+  def show
+    blog = Blog.find_by_id(show_params)
+    return render_not_found(Blog, show_params) if (blog.nil?)
+    
+    if (BlogAccessLevel.can_show?(@current_user, blog))
+      render_ok(blog)
+    else
+      render_unauthorized
+    end
+  end
+
   private 
   
   def create_params
@@ -29,6 +43,10 @@ class BlogsController < ApplicationController
   end
 
   def destroy_params
+    params.permit(:id)[:id]
+  end
+
+  def show_params
     params.permit(:id)[:id]
   end
 end
