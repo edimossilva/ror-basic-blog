@@ -39,12 +39,4 @@ class BlogsController < ApplicationController
   def create_params
     params.permit(:name, :is_private, :user_id)
   end
-
-  def destroy_params
-    params.permit(:id)[:id]
-  end
-
-  def show_params
-    params.permit(:id)[:id]
-  end
 end
