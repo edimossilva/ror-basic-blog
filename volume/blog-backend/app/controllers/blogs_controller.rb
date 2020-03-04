@@ -1,8 +1,8 @@
 class BlogsController < ApplicationController
-  before_action :authorize_request, :create
+  before_action :authorize_request, only: [:create, :destroy]
 
   def create
-    blog = Blog.create(blog_params)
+    blog = Blog.create(create_params)
     if blog.valid?
       render json: blog, status: :created
     else
@@ -10,9 +10,25 @@ class BlogsController < ApplicationController
     end
   end
 
+  def destroy
+    blog = Blog.find_by_id(destroy_params)
+    return render_not_found(Blog, destroy_params) if (blog.nil?)
+    
+    if (BlogAccessLevel.can_delete?(@current_user, blog))
+      blog.destroy!
+      render_destroyed
+    else
+      render_unauthorized
+    end
+  end
+
   private 
   
-  def blog_params
+  def create_params
     params.permit(:name, :is_private, :user_id)
+  end
+
+  def destroy_params
+    params.permit(:id)[:id]
   end
 end

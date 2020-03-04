@@ -17,7 +17,7 @@ RSpec.describe "Blogs", type: :request do
     let!(:invalid_user_id_headers) { 
       { "Authorization" => invalid_token } 
     }
-
+    
     context "When receive valida data" do
       before do 
         post "/blogs", params: { name: name, is_private: is_private, user_id: user.id }, headers: headers
@@ -102,6 +102,68 @@ RSpec.describe "Blogs", type: :request do
           it 'error is name: cant be empty' do
             json_response = JSON.parse(response.body)
             expect(json_response["errors"]["user"][0]).to eq("must exist")
+          end
+        end
+      end
+    end
+  end
+
+  describe "#destroy" do
+    context 'when user is admin' do
+      context 'it destroys' do
+        context 'when blog belongs to himself' do
+          let!(:admin_user_blog) { create(:blog, :with_admin_user) }
+          let!(:admin_user) { admin_user_blog.user }
+          let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+          
+          let!(:admin_user_headers) { 
+            { "Authorization" => admin_user_token } 
+          }
+          
+          before do 
+            delete "/blogs/#{admin_user_blog.id}", headers: admin_user_headers
+          end
+          
+          it 'responds :no_content' do
+            expect(response).to have_http_status(:no_content)
+          end
+        end
+        
+        context 'when blog belongs to regular user' do
+          let!(:regular_user_blog) { create(:blog, :with_regular_user) }
+          
+          let!(:admin_user) { create(:user, :admin) }
+          let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+          
+          let!(:admin_user_headers) { 
+            { "Authorization" => admin_user_token } 
+          }
+          
+          before do 
+            delete "/blogs/#{regular_user_blog.id}", headers: admin_user_headers
+          end
+          
+          it 'responds :no_content' do
+            expect(response).to have_http_status(:no_content)
+          end
+        end
+      end
+      context 'it does not destroys' do
+        context 'when blog belongs to another admin' do
+          let!(:admin_user_blog) { create(:blog, :with_admin_user) }
+          let!(:another_admin_user) { create(:user, :admin) }
+          let!(:another_admin_user_token) { JsonWebToken.encode(user_id: another_admin_user.id) }
+          
+          let!(:another_admin_user_headers) { 
+            { "Authorization" => another_admin_user_token } 
+          }
+        
+          before do 
+            delete "/blogs/#{admin_user_blog.id}", headers: another_admin_user_headers
+          end
+          
+          it 'responds :unauthorized' do
+            expect(response).to have_http_status(:unauthorized)
           end
         end
       end
