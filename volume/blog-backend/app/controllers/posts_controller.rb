@@ -6,28 +6,25 @@ class PostsController < ApplicationController
     post = Post.new(create_params)
     post.user_id = @current_user.id
 
-    return render_unauthorized unless PostAccessLevel.can_create?(@current_user, post)
-
-    if post.valid?
-      render json: post, status: :created
+    if PostAccessLevel.can_create?(@current_user, post)
+      render_created(post) if post.save!
     else
-      render json: { error_message: 'Post not created', errors: post.errors }, status: :unprocessable_entity
+      render_unauthorized
     end
   end
 
   def destroy
-    post = Post.find_by!(id: destroy_params[:id], blog_id: destroy_params[:blog_id])
+    post = Post.find_by!(id: search_params[:id], blog_id: search_params[:blog_id])
 
     if PostAccessLevel.can_delete?(@current_user, post)
-      post.destroy!
-      render_destroyed
+      render_destroyed if post.destroy!
     else
       render_unauthorized
     end
   end
 
   def show
-    post = Post.find_by!(id: show_params[:id], blog_id: show_params[:blog_id])
+    post = Post.find_by!(id: search_params[:id], blog_id: search_params[:blog_id])
 
     if PostAccessLevel.can_show?(@current_user, post)
       render_ok(post)
@@ -42,11 +39,7 @@ class PostsController < ApplicationController
     params.permit(:title, :blog_id)
   end
 
-  def destroy_params
-    params.permit(:id, :blog_id)
-  end
-
-  def show_params
+  def search_params
     params.permit(:id, :blog_id)
   end
 end

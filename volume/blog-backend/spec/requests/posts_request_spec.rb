@@ -30,7 +30,7 @@ RSpec.describe 'Posts', type: :request do
           end
 
           it 'contains fields from params' do
-            json_response = JSON.parse(response.body)
+            json_response = JSON.parse(response.body)['data']
             expect(json_response['title']).to eq(title1)
             expect(json_response['blog_id']).to eq(registred_post1.blog.id)
             expect(json_response['user_id']).to eq(registred_post1.user.id)
@@ -48,7 +48,7 @@ RSpec.describe 'Posts', type: :request do
 
           it 'contains fields from params' do
             json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq('Post not created')
+            expect(json_response['error_message']).to eq("Validation failed: Title can't be blank")
           end
         end
       end
@@ -75,7 +75,7 @@ RSpec.describe 'Posts', type: :request do
         end
 
         it 'contains fields from params' do
-          json_response = JSON.parse(response.body)
+          json_response = JSON.parse(response.body)['data']
           expect(json_response['title']).to eq(title1)
           expect(json_response['blog_id']).to eq(admin_post1.blog.id)
           expect(json_response['user_id']).to eq(admin_post1.user.id)

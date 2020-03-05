@@ -68,17 +68,12 @@ RSpec.describe 'Blogs', type: :request do
 
           it 'contains error messages' do
             json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq('Blog not created')
-          end
-
-          it 'contains 1 error' do
-            json_response = JSON.parse(response.body)
-            expect(json_response['errors'].length).to eq(1)
+            expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
           end
 
           it 'error is name: cant be empty' do
             json_response = JSON.parse(response.body)
-            expect(json_response['errors']['name'][0]).to eq("can't be blank")
+            expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
           end
         end
         context 'when user_id is empty' do
@@ -92,17 +87,12 @@ RSpec.describe 'Blogs', type: :request do
 
           it 'contains error messages' do
             json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq('Blog not created')
-          end
-
-          it 'contains 1 error' do
-            json_response = JSON.parse(response.body)
-            expect(json_response['errors'].length).to eq(1)
+            expect(json_response['error_message']).to eq("Validation failed: User must exist")
           end
 
           it 'error is name: cant be empty' do
             json_response = JSON.parse(response.body)
-            expect(json_response['errors']['user'][0]).to eq('must exist')
+            expect(json_response['error_message']).to eq("Validation failed: User must exist")
           end
         end
       end
