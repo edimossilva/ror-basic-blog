@@ -7,33 +7,21 @@ RSpec.describe 'Posts', type: :request do
   let!(:registred_post1) { create(:post, :with_registred_user) }
   let!(:registred_blog1) { registred_post1.blog }
   let!(:registred_blog_user1) { registred_blog1.user }
-  let!(:registred_blog_user_token1) { JsonWebToken.encode(user_id: registred_blog_user1.id) }
-  let!(:registred_headers1) do
-    { 'Authorization' => registred_blog_user_token1 }
-  end
+  let!(:registred_headers1) { header_for_user(registred_blog_user1) }
 
   let!(:registred_blog2) { create(:blog, :with_registred_user) }
   let!(:registred_blog_user2) { registred_blog2.user }
-  let!(:registred_blog_user_token2) { JsonWebToken.encode(user_id: registred_blog_user2.id) }
-  let!(:registred_headers2) do
-    { 'Authorization' => registred_blog_user_token2 }
-  end
+  let!(:registred_headers2) { header_for_user(registred_blog_user2) }
 
   let!(:admin_post1) { create(:post, :with_admin_user) }
   let!(:admin_blog1) { admin_post1.blog }
   let!(:admin_blog_user1) { admin_blog1.user }
-  let!(:admin_blog_user_token1) { JsonWebToken.encode(user_id: admin_blog_user1.id) }
-  let!(:admin_headers1) do
-    { 'Authorization' => admin_blog_user_token1 }
-  end
+  let!(:admin_headers1) { header_for_user(admin_blog_user1) }
 
   let!(:admin_post2) { create(:post, :with_admin_user) }
   let!(:admin_blog2) { admin_post2.blog }
   let!(:admin_blog_user2) { admin_blog2.user }
-  let!(:admin_blog_user_token2) { JsonWebToken.encode(user_id: admin_blog_user2.id) }
-  let!(:admin_headers2) do
-    { 'Authorization' => admin_blog_user_token2 }
-  end
+  let!(:admin_headers2) { header_for_user(admin_blog_user2) }
 
   describe '#created' do
     context '2.ii - when registred user' do

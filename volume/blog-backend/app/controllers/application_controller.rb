@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
+  include Auth::JsonWebTokenHelper
+
   before_action :authorize_request
   def authorize_request
     header = request.headers['Authorization']
     header = header.split(' ').last if header
     begin
-      @decoded = JsonWebToken.decode(header)
+      @decoded = decode_token(header)
       @current_user = User.find(@decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
@@ -15,11 +17,11 @@ class ApplicationController < ActionController::API
 
   def public_request
     header = request.headers['Authorization']
-    if header
-      header = header.split(' ').last
-      @decoded = JsonWebToken.decode(header)
-      @current_user = User.find(@decoded[:user_id])
-    end
+    return unless header
+
+    header = header.split(' ').last
+    @decoded = decode_token(header)
+    @current_user = User.find(@decoded[:user_id])
   end
 
   def render_destroyed

@@ -5,8 +5,8 @@ RSpec.describe 'Blogs', type: :request do
     let!(:name) { Faker::Name.name }
     let!(:is_private) { Faker::Boolean.boolean }
     let!(:user) { create :user }
-    let!(:registred_token) { JsonWebToken.encode(user_id: user.id) }
-    let!(:invalid_token) { JsonWebToken.encode(user_id: -1) }
+    let!(:registred_token) { encode_user(user) }
+    let!(:invalid_token) { encode_user(User.new) }
 
     let!(:headers) do
       { 'Authorization' => registred_token }
@@ -112,11 +112,9 @@ RSpec.describe 'Blogs', type: :request do
     context 'when blog not found' do
       let!(:admin_user_blog) { create(:blog, :with_admin_user) }
       let!(:admin_user) { admin_user_blog.user }
-      let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+      let!(:admin_user_token) { encode_user(admin_user) }
 
-      let!(:admin_user_headers) do
-        { 'Authorization' => admin_user_token }
-      end
+      let!(:admin_user_headers) { header_for_user(admin_user) }
 
       before do
         delete '/blogs/-1', headers: admin_user_headers
@@ -132,7 +130,7 @@ RSpec.describe 'Blogs', type: :request do
         context 'when blog belongs to himself' do
           let!(:admin_user_blog) { create(:blog, :with_admin_user) }
           let!(:admin_user) { admin_user_blog.user }
-          let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+          let!(:admin_user_token) { encode_user(admin_user) }
 
           let!(:admin_user_headers) do
             { 'Authorization' => admin_user_token }
@@ -151,7 +149,7 @@ RSpec.describe 'Blogs', type: :request do
           let!(:registred_user_blog) { create(:blog, :with_registred_user) }
 
           let!(:admin_user) { create(:user, :admin) }
-          let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+          let!(:admin_user_token) { encode_user(admin_user) }
 
           let!(:admin_user_headers) do
             { 'Authorization' => admin_user_token }
@@ -170,7 +168,7 @@ RSpec.describe 'Blogs', type: :request do
         context 'when blog belongs to another admin' do
           let!(:admin_user_blog) { create(:blog, :with_admin_user) }
           let!(:another_admin_user) { create(:user, :admin) }
-          let!(:another_admin_user_token) { JsonWebToken.encode(user_id: another_admin_user.id) }
+          let!(:another_admin_user_token) { encode_user(another_admin_user) }
 
           let!(:another_admin_user_headers) do
             { 'Authorization' => another_admin_user_token }
@@ -190,7 +188,7 @@ RSpec.describe 'Blogs', type: :request do
     context 'when user is not admin' do
       let!(:registred_user_blog) { create(:blog, :with_registred_user) }
       let!(:registred_user) { registred_user_blog.user }
-      let!(:registred_user_token) { JsonWebToken.encode(user_id: registred_user.id) }
+      let!(:registred_user_token) { encode_user(registred_user) }
 
       let!(:registred_user_headers) do
         { 'Authorization' => registred_user_token }
@@ -236,7 +234,7 @@ RSpec.describe 'Blogs', type: :request do
     context '2.iv - when user is registered' do
       let!(:registred_user_blog) { create(:blog, :with_registred_user) }
       let!(:registred_user) { registred_user_blog.user }
-      let!(:registred_user_token) { JsonWebToken.encode(user_id: registred_user.id) }
+      let!(:registred_user_token) { encode_user(registred_user) }
 
       let!(:registred_user_headers) do
         { 'Authorization' => registred_user_token }
@@ -270,7 +268,7 @@ RSpec.describe 'Blogs', type: :request do
     context '3.i - when user is admin' do
       let!(:admin_user_blog) { create(:blog, :with_admin_user) }
       let!(:admin_user) { admin_user_blog.user }
-      let!(:admin_user_token) { JsonWebToken.encode(user_id: admin_user.id) }
+      let!(:admin_user_token) { encode_user(admin_user) }
 
       let!(:admin_user_headers) do
         { 'Authorization' => admin_user_token }

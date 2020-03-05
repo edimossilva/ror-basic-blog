@@ -25,7 +25,7 @@ RSpec.describe 'Authentications', type: :request do
 
       it 'responds with a token related to the user id' do
         json_response = JSON.parse(response.body)
-        payload = JsonWebToken.decode(json_response['token'])
+        payload = decode_token(json_response['token'])
 
         expect(payload[:user_id]).to eq(user.id)
       end
