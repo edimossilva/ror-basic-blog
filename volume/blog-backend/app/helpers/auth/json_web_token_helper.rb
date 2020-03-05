@@ -31,5 +31,14 @@ module Auth
         render json: { errors: e.message }, status: :unauthorized
       end
     end
+
+    def public_request
+      header = request.headers['Authorization']
+      return unless header
+
+      header = header.split(' ').last
+      @decoded = decode_token(header)
+      @current_user = User.find(@decoded[:user_id])
+    end
   end
 end

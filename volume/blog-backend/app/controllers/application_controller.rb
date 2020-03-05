@@ -4,15 +4,6 @@ class ApplicationController < ActionController::API
 
   before_action :authorize_request
 
-  def public_request
-    header = request.headers['Authorization']
-    return unless header
-
-    header = header.split(' ').last
-    @decoded = decode_token(header)
-    @current_user = User.find(@decoded[:user_id])
-  end
-
   def render_destroyed
     render status: :no_content
   end
