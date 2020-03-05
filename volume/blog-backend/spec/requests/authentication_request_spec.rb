@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe "Authentications", type: :request do
-  describe "#login" do
+RSpec.describe 'Authentications', type: :request do
+  describe '#login' do
     let!(:user) { create :user }
 
-    context "When receive valid data" do
-      before do 
-        post "/auth/login", params: { username: user.username, password: user.password }
+    context 'When receive valid data' do
+      before do
+        post '/auth/login', params: { username: user.username, password: user.password }
       end
 
       it 'responds :created' do
@@ -15,26 +15,26 @@ RSpec.describe "Authentications", type: :request do
 
       it "responds with user's username" do
         json_response = JSON.parse(response.body)
-        expect(json_response["username"]).to eq(user.username)
+        expect(json_response['username']).to eq(user.username)
       end
 
       it "responds with user's access_level" do
         json_response = JSON.parse(response.body)
-        expect(json_response["access_level"]).to eq(user.access_level)
+        expect(json_response['access_level']).to eq(user.access_level)
       end
 
-      it "responds with a token related to the user id" do
+      it 'responds with a token related to the user id' do
         json_response = JSON.parse(response.body)
-        payload = JsonWebToken.decode(json_response["token"])
+        payload = JsonWebToken.decode(json_response['token'])
 
         expect(payload[:user_id]).to eq(user.id)
       end
     end
-    
-    context "When receive invalid data" do
+
+    context 'When receive invalid data' do
       context 'when invalid username and password' do
-        before do 
-          post "/auth/login", params: { username: "invalid username", password: "invalid passowrd" }
+        before do
+          post '/auth/login', params: { username: 'invalid username', password: 'invalid passowrd' }
         end
         it 'responds :unauthorized' do
           expect(response).to have_http_status(:unauthorized)
@@ -42,8 +42,8 @@ RSpec.describe "Authentications", type: :request do
       end
 
       context 'when valid username and invalid password' do
-        before do 
-          post "/auth/login", params: { username: user.username, password: "invalid passowrd" }
+        before do
+          post '/auth/login', params: { username: user.username, password: 'invalid passowrd' }
         end
         it 'responds :unauthorized' do
           expect(response).to have_http_status(:unauthorized)
@@ -51,8 +51,8 @@ RSpec.describe "Authentications", type: :request do
       end
 
       context 'when invalid username and valid password' do
-        before do 
-          post "/auth/login", params: { username: "invalid username", password: user.password }
+        before do
+          post '/auth/login', params: { username: 'invalid username', password: user.password }
         end
         it 'responds :unauthorized' do
           expect(response).to have_http_status(:unauthorized)

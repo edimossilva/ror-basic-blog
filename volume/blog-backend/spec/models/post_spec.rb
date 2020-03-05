@@ -5,21 +5,21 @@ RSpec.describe Post, type: :model do
   let!(:post_without_title) { build :post, :without_title }
   let!(:post_without_blog) { build :post, :without_blog }
   let!(:post_without_user) { build :post, :without_user }
-  
-  it "is valid when post has all valid fields" do
+
+  it 'is valid when post has all valid fields' do
     expect(post).to be_valid
   end
 
   context 'when post is invalid' do
-    it "is invalid when post has no title" do
+    it 'is invalid when post has no title' do
       expect(post_without_title).to be_invalid
     end
-    
-    it "is invalid when post has no blog" do
+
+    it 'is invalid when post has no blog' do
       expect(post_without_blog).to be_invalid
     end
-    
-    it "is invalid when post has no user" do
+
+    it 'is invalid when post has no user' do
       expect(post_without_user).to be_invalid
     end
   end

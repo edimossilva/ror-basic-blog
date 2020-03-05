@@ -12,11 +12,11 @@ FactoryBot.define do
     trait :admin do
       access_level { User.access_levels[:admin] }
     end
-    
+
     trait :without_username do
       username { nil }
     end
-    
+
     trait :without_password do
       password { nil }
     end

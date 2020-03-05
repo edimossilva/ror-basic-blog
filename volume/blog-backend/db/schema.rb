@@ -10,39 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_04_101404) do
-
+ActiveRecord::Schema.define(version: 20_200_304_101_404) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "blogs", force: :cascade do |t|
-    t.string "name"
-    t.boolean "is_private"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_blogs_on_user_id"
+  create_table 'blogs', force: :cascade do |t|
+    t.string 'name'
+    t.boolean 'is_private'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'user_id', null: false
+    t.index ['user_id'], name: 'index_blogs_on_user_id'
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "blog_id", null: false
-    t.bigint "user_id", null: false
-    t.index ["blog_id"], name: "index_posts_on_blog_id"
-    t.index ["user_id"], name: "index_posts_on_user_id"
+  create_table 'posts', force: :cascade do |t|
+    t.string 'title'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'blog_id', null: false
+    t.bigint 'user_id', null: false
+    t.index ['blog_id'], name: 'index_posts_on_blog_id'
+    t.index ['user_id'], name: 'index_posts_on_user_id'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password_digest"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "access_level"
+  create_table 'users', force: :cascade do |t|
+    t.string 'username'
+    t.string 'password_digest'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'access_level'
   end
 
-  add_foreign_key "blogs", "users"
-  add_foreign_key "posts", "blogs"
-  add_foreign_key "posts", "users"
+  add_foreign_key 'blogs', 'users'
+  add_foreign_key 'posts', 'blogs'
+  add_foreign_key 'posts', 'users'
 end

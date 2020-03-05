@@ -7,15 +7,15 @@ class BlogsController < ApplicationController
     if blog.valid?
       render json: blog, status: :created
     else
-      render json: { error_message: I18n.t(".controllers.blogs.not_created"), errors: blog.errors }, status: :unprocessable_entity
+      render json: { error_message: I18n.t('.controllers.blogs.not_created'), errors: blog.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
     blog = Blog.find_by(id: destroy_params[:id])
-    return render_not_found(Blog, destroy_params) if (blog.nil?)
-    
-    if (BlogAccessLevel.can_delete?(@current_user, blog))
+    return render_not_found(Blog, destroy_params) if blog.nil?
+
+    if BlogAccessLevel.can_delete?(@current_user, blog)
       blog.destroy!
       render_destroyed
     else
@@ -25,17 +25,17 @@ class BlogsController < ApplicationController
 
   def show
     blog = Blog.find_by(id: show_params[:id])
-    return render_not_found(Blog, show_params) if (blog.nil?)
-    
-    if (BlogAccessLevel.can_show?(@current_user, blog))
+    return render_not_found(Blog, show_params) if blog.nil?
+
+    if BlogAccessLevel.can_show?(@current_user, blog)
       render_ok(blog)
     else
       render_unauthorized
     end
   end
 
-  private 
-  
+  private
+
   def create_params
     params.permit(:name, :is_private, :user_id)
   end

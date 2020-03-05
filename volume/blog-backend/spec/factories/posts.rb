@@ -1,7 +1,6 @@
 include ActionDispatch::TestProcess
 FactoryBot.define do
   factory :post do
-
     title { Faker::Books::CultureSeries.book }
     blog_id { create(:blog).id }
     user_id { create(:user).id }
