@@ -16,8 +16,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = Post.find_by(id: destroy_params[:id], blog_id: destroy_params[:blog_id])
-    return render_not_found(Post, destroy_params) if post.nil?
+    post = Post.find_by!(id: destroy_params[:id], blog_id: destroy_params[:blog_id])
 
     if PostAccessLevel.can_delete?(@current_user, post)
       post.destroy!
@@ -28,8 +27,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    post = Post.find_by(id: show_params[:id], blog_id: show_params[:blog_id])
-    return render_not_found(Post, show_params) if post.nil?
+    post = Post.find_by!(id: show_params[:id], blog_id: show_params[:blog_id])
 
     if PostAccessLevel.can_show?(@current_user, post)
       render_ok(post)

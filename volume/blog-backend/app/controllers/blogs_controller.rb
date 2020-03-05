@@ -12,8 +12,7 @@ class BlogsController < ApplicationController
   end
 
   def destroy
-    blog = Blog.find_by(id: destroy_params[:id])
-    return render_not_found(Blog, destroy_params) if blog.nil?
+    blog = Blog.find_by!(id: destroy_params[:id])
 
     if BlogAccessLevel.can_delete?(@current_user, blog)
       blog.destroy
@@ -24,8 +23,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    blog = Blog.find_by(id: show_params[:id])
-    return render_not_found(Blog, show_params) if blog.nil?
+    blog = Blog.find_by!(id: show_params[:id])
 
     if BlogAccessLevel.can_show?(@current_user, blog)
       render_ok(blog)
