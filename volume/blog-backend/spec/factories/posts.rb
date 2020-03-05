@@ -2,8 +2,18 @@ include ActionDispatch::TestProcess
 FactoryBot.define do
   factory :post do
     title { Faker::Books::CultureSeries.book }
-    blog_id { create(:blog).id }
-    user_id { create(:user).id }
+    blog { create(:blog, :with_registred_user) }
+    user_id { blog.user_id }
+
+    trait :with_registred_user do
+      blog { create(:blog, :with_registred_user) }
+      user_id { blog.user_id }
+    end
+
+    trait :with_admin_user do
+      blog { create(:blog, :with_admin_user) }
+      user_id { blog.user_id }
+    end
 
     trait :without_title do
       title { nil }
