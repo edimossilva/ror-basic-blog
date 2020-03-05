@@ -6,7 +6,8 @@
       
       - [ ] frontend
    1. Read any post that belong to the blogs they can read
-      - [ ] backend
+      - [X] backend
+      
       - [ ] frontend
    1. Write comments on any post
       - [ ] backend
