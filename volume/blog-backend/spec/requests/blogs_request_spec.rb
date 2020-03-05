@@ -1,26 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe 'Blogs', type: :request do
+  let!(:name) { Faker::Name.name }
+  let!(:is_private) { Faker::Boolean.boolean }
+
+  let!(:registred_user) { create(:user, :registred) }
+  let!(:registred_headers) { header_for_user(registred_user) }
+
+  let!(:registred_user_blog) { create(:blog, :with_registred_user) }
+  let!(:registred_user_headers) { header_for_user(registred_user_blog.user) }
+
+  let!(:admin_user_blog) { create(:blog, :with_admin_user) }
+  let!(:admin_user_headers) { header_for_user(admin_user_blog.user) }
+
+  let!(:another_admin_user) { create(:user, :admin) }
+  let!(:another_admin_user_headers) { header_for_user(another_admin_user) }
+
+  let!(:invalid_headers) { header_for_user(User.new) }
+
   describe '#create' do
-    let!(:name) { Faker::Name.name }
-    let!(:is_private) { Faker::Boolean.boolean }
-    let!(:user) { create :user }
-    let!(:registred_token) { encode_user(user) }
-    let!(:invalid_token) { encode_user(User.new) }
-
-    let!(:headers) do
-      { 'Authorization' => registred_token }
-    end
-    let!(:invalid_decode_headers) do
-      { 'Authorization' => 'invalid_token' }
-    end
-    let!(:invalid_user_id_headers) do
-      { 'Authorization' => invalid_token }
-    end
-
     context 'When receive valida data' do
       before do
-        post '/blogs', params: { name: name, is_private: is_private, user_id: user.id }, headers: headers
+        post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: registred_headers
       end
 
       it 'responds :created' do
@@ -38,7 +39,7 @@ RSpec.describe 'Blogs', type: :request do
       context 'when token is invalid' do
         context 'when token has invalid decode' do
           before do
-            post '/blogs', params: { name: name, is_private: is_private, user_id: user.id }, headers: invalid_decode_headers
+            post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers
           end
           it 'responds :unauthorized' do
             expect(response).to have_http_status(:unauthorized)
@@ -47,7 +48,7 @@ RSpec.describe 'Blogs', type: :request do
 
         context 'when user is not valid' do
           before do
-            post '/blogs', params: { name: name, is_private: is_private, user_id: user.id }, headers: invalid_user_id_headers
+            post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers
           end
           it 'responds :unauthorized' do
             expect(response).to have_http_status(:unauthorized)
@@ -58,7 +59,7 @@ RSpec.describe 'Blogs', type: :request do
       context 'when blog data is invalid' do
         context 'when name is empty' do
           before do
-            post '/blogs', params: { name: '', is_private: is_private, user_id: user.id }, headers: headers
+            post '/blogs', params: { name: '', is_private: is_private, user_id: registred_user.id }, headers: registred_headers
           end
 
           it 'responds :unprocessable_entity' do
@@ -82,7 +83,7 @@ RSpec.describe 'Blogs', type: :request do
         end
         context 'when user_id is empty' do
           before do
-            post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: headers
+            post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: registred_headers
           end
 
           it 'responds :unprocessable_entity' do
@@ -110,12 +111,6 @@ RSpec.describe 'Blogs', type: :request do
 
   describe '#destroy' do
     context 'when blog not found' do
-      let!(:admin_user_blog) { create(:blog, :with_admin_user) }
-      let!(:admin_user) { admin_user_blog.user }
-      let!(:admin_user_token) { encode_user(admin_user) }
-
-      let!(:admin_user_headers) { header_for_user(admin_user) }
-
       before do
         delete '/blogs/-1', headers: admin_user_headers
       end
@@ -128,14 +123,6 @@ RSpec.describe 'Blogs', type: :request do
     context '3.ii - when user is admin' do
       context 'it destroys' do
         context 'when blog belongs to himself' do
-          let!(:admin_user_blog) { create(:blog, :with_admin_user) }
-          let!(:admin_user) { admin_user_blog.user }
-          let!(:admin_user_token) { encode_user(admin_user) }
-
-          let!(:admin_user_headers) do
-            { 'Authorization' => admin_user_token }
-          end
-
           before do
             delete "/blogs/#{admin_user_blog.id}", headers: admin_user_headers
           end
@@ -146,15 +133,6 @@ RSpec.describe 'Blogs', type: :request do
         end
 
         context 'when blog belongs to registred user' do
-          let!(:registred_user_blog) { create(:blog, :with_registred_user) }
-
-          let!(:admin_user) { create(:user, :admin) }
-          let!(:admin_user_token) { encode_user(admin_user) }
-
-          let!(:admin_user_headers) do
-            { 'Authorization' => admin_user_token }
-          end
-
           before do
             delete "/blogs/#{registred_user_blog.id}", headers: admin_user_headers
           end
@@ -166,14 +144,6 @@ RSpec.describe 'Blogs', type: :request do
       end
       context 'it does not destroys' do
         context 'when blog belongs to another admin' do
-          let!(:admin_user_blog) { create(:blog, :with_admin_user) }
-          let!(:another_admin_user) { create(:user, :admin) }
-          let!(:another_admin_user_token) { encode_user(another_admin_user) }
-
-          let!(:another_admin_user_headers) do
-            { 'Authorization' => another_admin_user_token }
-          end
-
           before do
             delete "/blogs/#{admin_user_blog.id}", headers: another_admin_user_headers
           end
@@ -186,14 +156,6 @@ RSpec.describe 'Blogs', type: :request do
     end
 
     context 'when user is not admin' do
-      let!(:registred_user_blog) { create(:blog, :with_registred_user) }
-      let!(:registred_user) { registred_user_blog.user }
-      let!(:registred_user_token) { encode_user(registred_user) }
-
-      let!(:registred_user_headers) do
-        { 'Authorization' => registred_user_token }
-      end
-
       before do
         delete "/blogs/#{registred_user_blog.id}", headers: registred_user_headers
       end
@@ -232,14 +194,6 @@ RSpec.describe 'Blogs', type: :request do
     end
 
     context '2.iv - when user is registered' do
-      let!(:registred_user_blog) { create(:blog, :with_registred_user) }
-      let!(:registred_user) { registred_user_blog.user }
-      let!(:registred_user_token) { encode_user(registred_user) }
-
-      let!(:registred_user_headers) do
-        { 'Authorization' => registred_user_token }
-      end
-
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
@@ -266,14 +220,6 @@ RSpec.describe 'Blogs', type: :request do
     end
 
     context '3.i - when user is admin' do
-      let!(:admin_user_blog) { create(:blog, :with_admin_user) }
-      let!(:admin_user) { admin_user_blog.user }
-      let!(:admin_user_token) { encode_user(admin_user) }
-
-      let!(:admin_user_headers) do
-        { 'Authorization' => admin_user_token }
-      end
-
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 

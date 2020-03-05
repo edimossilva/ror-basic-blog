@@ -1,7 +1,7 @@
 include ActionDispatch::TestProcess
 FactoryBot.define do
   factory :user do
-    username { Faker::String.unique.random(length: 6).gsub("\u0000", '') }
+    username { Faker::Name.unique.name }
     password { Faker::String.random(length: 3) }
     access_level { User.access_levels[:registred] }
 

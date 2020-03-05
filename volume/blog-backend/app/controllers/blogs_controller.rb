@@ -16,7 +16,7 @@ class BlogsController < ApplicationController
     return render_not_found(Blog, destroy_params) if blog.nil?
 
     if BlogAccessLevel.can_delete?(@current_user, blog)
-      blog.destroy!
+      blog.destroy
       render_destroyed
     else
       render_unauthorized
