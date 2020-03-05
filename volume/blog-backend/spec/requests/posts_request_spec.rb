@@ -5,22 +5,16 @@ RSpec.describe 'Posts', type: :request do
   let!(:title2) { Faker::Books::CultureSeries.book }
 
   let!(:registred_post1) { create(:post, :with_registred_user) }
-  let!(:registred_blog1) { registred_post1.blog }
-  let!(:registred_blog_user1) { registred_blog1.user }
-  let!(:registred_headers1) { header_for_user(registred_blog_user1) }
+  let!(:registred_headers1) { header_for_user(registred_post1.user) }
 
   let!(:registred_blog2) { create(:blog, :with_registred_user) }
-  let!(:registred_blog_user2) { registred_blog2.user }
-  let!(:registred_headers2) { header_for_user(registred_blog_user2) }
+  let!(:registred_headers2) { header_for_user(registred_blog2.user) }
 
   let!(:admin_post1) { create(:post, :with_admin_user) }
-  let!(:admin_blog1) { admin_post1.blog }
-  let!(:admin_blog_user1) { admin_blog1.user }
-  let!(:admin_headers1) { header_for_user(admin_blog_user1) }
+  let!(:admin_headers1) { header_for_user(admin_post1.user) }
 
   let!(:admin_post2) { create(:post, :with_admin_user) }
-  let!(:admin_blog2) { admin_post2.blog }
-  let!(:admin_blog_user2) { admin_blog2.user }
+  let!(:admin_blog_user2) { admin_post2.user }
   let!(:admin_headers2) { header_for_user(admin_blog_user2) }
 
   describe '#created' do
@@ -28,7 +22,7 @@ RSpec.describe 'Posts', type: :request do
       context 'and is blog owner' do
         context 'and data is valid' do
           before do
-            post "/blogs/#{registred_blog1.id}/posts", params: { title: title1 }, headers: registred_headers1
+            post "/blogs/#{registred_post1.blog.id}/posts", params: { title: title1 }, headers: registred_headers1
           end
 
           it 'responds :created' do
@@ -38,14 +32,14 @@ RSpec.describe 'Posts', type: :request do
           it 'contains fields from params' do
             json_response = JSON.parse(response.body)
             expect(json_response['title']).to eq(title1)
-            expect(json_response['blog_id']).to eq(registred_blog1.id)
-            expect(json_response['user_id']).to eq(registred_blog_user1.id)
+            expect(json_response['blog_id']).to eq(registred_post1.blog.id)
+            expect(json_response['user_id']).to eq(registred_post1.user.id)
           end
         end
 
         context 'and data is invalid' do
           before do
-            post "/blogs/#{registred_blog1.id}/posts", params: { title: '' }, headers: registred_headers1
+            post "/blogs/#{registred_post1.blog.id}/posts", params: { title: '' }, headers: registred_headers1
           end
 
           it 'responds :created' do
@@ -61,7 +55,7 @@ RSpec.describe 'Posts', type: :request do
 
       context 'and is not blog owner' do
         before do
-          post "/blogs/#{registred_blog1.id}/posts", params: { title: title2 }, headers: registred_headers2
+          post "/blogs/#{registred_post1.blog.id}/posts", params: { title: title2 }, headers: registred_headers2
         end
 
         it 'responds :unauthorized' do
@@ -73,7 +67,7 @@ RSpec.describe 'Posts', type: :request do
     context '3.i - when admin user' do
       context 'and is blog owner' do
         before do
-          post "/blogs/#{admin_blog1.id}/posts", params: { title: title1 }, headers: admin_headers1
+          post "/blogs/#{admin_post1.blog.id}/posts", params: { title: title1 }, headers: admin_headers1
         end
 
         it 'responds :created' do
@@ -83,14 +77,14 @@ RSpec.describe 'Posts', type: :request do
         it 'contains fields from params' do
           json_response = JSON.parse(response.body)
           expect(json_response['title']).to eq(title1)
-          expect(json_response['blog_id']).to eq(admin_blog1.id)
-          expect(json_response['user_id']).to eq(admin_blog1.user.id)
+          expect(json_response['blog_id']).to eq(admin_post1.blog.id)
+          expect(json_response['user_id']).to eq(admin_post1.user.id)
         end
       end
 
       context 'and is not blog owner' do
         before do
-          post "/blogs/#{admin_blog2.id}/posts", params: { title: title2 }, headers: admin_headers1
+          post "/blogs/#{admin_post2.blog.id}/posts", params: { title: title2 }, headers: admin_headers1
         end
 
         it 'responds :unauthorized' do
@@ -208,7 +202,7 @@ RSpec.describe 'Posts', type: :request do
     context 'when user is registered' do
       context 'and blog belongs to himself' do
         before do
-          get "/blogs/#{registred_blog1.id}/posts/#{registred_post1.id}", headers: registred_headers1
+          get "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: registred_headers1
         end
 
         it 'responds :ok' do
@@ -218,7 +212,7 @@ RSpec.describe 'Posts', type: :request do
 
       context 'and blog belongs to another user' do
         before do
-          get "/blogs/#{registred_blog1.id}/posts/#{registred_post1.id}", headers: registred_headers2
+          get "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: registred_headers2
         end
 
         it 'responds :ok' do
@@ -240,7 +234,7 @@ RSpec.describe 'Posts', type: :request do
 
       context 'and blog belongs to another user' do
         before do
-          get "/blogs/#{registred_blog1.id}/posts/#{registred_post1.id}", headers: admin_headers1
+          get "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: admin_headers1
         end
 
         it 'responds :ok' do
