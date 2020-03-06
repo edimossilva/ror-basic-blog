@@ -7,8 +7,8 @@ RSpec.describe 'Posts', type: :request do
   let!(:registred_post1) { create(:post, :with_registred_user) }
   let!(:registred_headers1) { header_for_user(registred_post1.user) }
 
-  let!(:registred_blog2) { create(:blog, :with_registred_user) }
-  let!(:registred_headers2) { header_for_user(registred_blog2.user) }
+  let!(:registred_post2) { create(:post, :with_registred_user) }
+  let!(:registred_headers2) { header_for_user(registred_post2.user) }
 
   let!(:admin_post1) { create(:post, :with_admin_user) }
   let!(:admin_headers1) { header_for_user(admin_post1.user) }
@@ -42,11 +42,11 @@ RSpec.describe 'Posts', type: :request do
             post "/blogs/#{registred_post1.blog.id}/posts", params: { title: '' }, headers: registred_headers1
           end
 
-          it 'responds :created' do
+          it 'responds :unprocessable_entity' do
             expect(response).to have_http_status(:unprocessable_entity)
           end
 
-          it 'contains fields from params' do
+          it 'contains empty title error message' do
             json_response = JSON.parse(response.body)
             expect(json_response['error_message']).to eq("Validation failed: Title can't be blank")
           end
@@ -95,7 +95,7 @@ RSpec.describe 'Posts', type: :request do
   end
 
   describe '#destroy' do
-    context 'when blog not found' do
+    context 'when blog does not exist' do
       before do
         delete "/blogs/#{admin_post1.user.id}/posts/-1", headers: admin_headers1
       end
@@ -119,13 +119,23 @@ RSpec.describe 'Posts', type: :request do
       end
 
       context 'it does NOT destroys' do
-        context 'when post belongs other user' do
+        context 'when post belongs other registred user' do
           before do
-            delete "/blogs/#{admin_post1.user.id}/posts/#{admin_post2.id}", headers: registred_headers1
+            delete "/blogs/#{registred_post2.blog.id}/posts/#{registred_post2.id}", headers: registred_headers1
           end
 
-          it 'responds :not_found' do
-            expect(response).to have_http_status(:not_found)
+          it 'responds :unauthorized' do
+            expect(response).to have_http_status(:unauthorized)
+          end
+        end
+
+        context 'when post belongs other admin user' do
+          before do
+            delete "/blogs/#{admin_post1.blog.id}/posts/#{admin_post1.id}", headers: registred_headers1
+          end
+
+          it 'responds :unauthorized' do
+            expect(response).to have_http_status(:unauthorized)
           end
         end
       end

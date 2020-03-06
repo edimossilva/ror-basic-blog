@@ -20,18 +20,20 @@ RSpec.describe 'Blogs', type: :request do
 
   describe '#create' do
     context 'When receive valida data' do
-      before do
-        post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: registred_headers
-      end
+      context 'when registred user' do
+        before do
+          post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: registred_headers
+        end
 
-      it 'responds :created' do
-        expect(response).to have_http_status(:created)
-      end
+        it 'responds :created' do
+          expect(response).to have_http_status(:created)
+        end
 
-      it 'contains fields from params' do
-        json_response = JSON.parse(response.body)
-        expect(json_response['name']).to eq(name)
-        expect(json_response['is_private']).to eq(is_private)
+        it 'contains fields from params' do
+          json_response = JSON.parse(response.body)
+          expect(json_response['name']).to eq(name)
+          expect(json_response['is_private']).to eq(is_private)
+        end
       end
     end
 
@@ -55,44 +57,45 @@ RSpec.describe 'Blogs', type: :request do
           end
         end
       end
+      context 'when registred user' do
+        context 'when blog data is invalid' do
+          context 'when name is empty' do
+            before do
+              post '/blogs', params: { name: '', is_private: is_private, user_id: registred_user.id }, headers: registred_headers
+            end
 
-      context 'when blog data is invalid' do
-        context 'when name is empty' do
-          before do
-            post '/blogs', params: { name: '', is_private: is_private, user_id: registred_user.id }, headers: registred_headers
-          end
+            it 'responds :unprocessable_entity' do
+              expect(response).to have_http_status(:unprocessable_entity)
+            end
 
-          it 'responds :unprocessable_entity' do
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
+            it 'contains error messages' do
+              json_response = JSON.parse(response.body)
+              expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
+            end
 
-          it 'contains error messages' do
-            json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
+            it 'error is name: cant be empty' do
+              json_response = JSON.parse(response.body)
+              expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
+            end
           end
+          context 'when user_id is empty' do
+            before do
+              post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: registred_headers
+            end
 
-          it 'error is name: cant be empty' do
-            json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
-          end
-        end
-        context 'when user_id is empty' do
-          before do
-            post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: registred_headers
-          end
+            it 'responds :unprocessable_entity' do
+              expect(response).to have_http_status(:unprocessable_entity)
+            end
 
-          it 'responds :unprocessable_entity' do
-            expect(response).to have_http_status(:unprocessable_entity)
-          end
+            it 'contains error messages' do
+              json_response = JSON.parse(response.body)
+              expect(json_response['error_message']).to eq('Validation failed: User must exist')
+            end
 
-          it 'contains error messages' do
-            json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq("Validation failed: User must exist")
-          end
-
-          it 'error is name: cant be empty' do
-            json_response = JSON.parse(response.body)
-            expect(json_response['error_message']).to eq("Validation failed: User must exist")
+            it 'error is name: cant be empty' do
+              json_response = JSON.parse(response.body)
+              expect(json_response['error_message']).to eq('Validation failed: User must exist')
+            end
           end
         end
       end
