@@ -11,10 +11,10 @@ RSpec.describe 'Blogs', type: :request do
   let!(:registred_user_headers) { header_for_user(registred_user_blog.user) }
 
   let!(:admin_user_blog) { create(:blog, :with_admin_user) }
-  let!(:admin_user_headers) { header_for_user(admin_user_blog.user) }
+  let!(:admin_headers) { header_for_user(admin_user_blog.user) }
 
   let!(:another_admin_user) { create(:user, :admin) }
-  let!(:another_admin_user_headers) { header_for_user(another_admin_user) }
+  let!(:another_admin_headers) { header_for_user(another_admin_user) }
 
   let!(:invalid_headers) { header_for_user(User.new) }
 
@@ -105,7 +105,7 @@ RSpec.describe 'Blogs', type: :request do
   describe '#destroy' do
     context 'when blog not found' do
       before do
-        delete '/blogs/-1', headers: admin_user_headers
+        delete '/blogs/-1', headers: admin_headers
       end
 
       it 'responds :not_found' do
@@ -117,7 +117,7 @@ RSpec.describe 'Blogs', type: :request do
       context 'it destroys' do
         context 'when blog belongs to himself' do
           before do
-            delete "/blogs/#{admin_user_blog.id}", headers: admin_user_headers
+            delete "/blogs/#{admin_user_blog.id}", headers: admin_headers
           end
 
           it 'responds :no_content' do
@@ -127,7 +127,7 @@ RSpec.describe 'Blogs', type: :request do
 
         context 'when blog belongs to registred user' do
           before do
-            delete "/blogs/#{registred_user_blog.id}", headers: admin_user_headers
+            delete "/blogs/#{registred_user_blog.id}", headers: admin_headers
           end
 
           it 'responds :no_content' do
@@ -138,7 +138,7 @@ RSpec.describe 'Blogs', type: :request do
       context 'it does not destroys' do
         context 'when blog belongs to another admin' do
           before do
-            delete "/blogs/#{admin_user_blog.id}", headers: another_admin_user_headers
+            delete "/blogs/#{admin_user_blog.id}", headers: another_admin_headers
           end
 
           it 'responds :unauthorized' do
@@ -155,6 +155,59 @@ RSpec.describe 'Blogs', type: :request do
 
       it 'responds :unauthorized' do
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe '#list' do
+    let!(:public_blogs) { create_list(:blog, 10, :public) }
+    let!(:private_blogs) { create_list(:blog, 2, :public) }
+
+    let!(:public_blogs_count) { Blog.where(is_private: false).count }
+    let!(:all_blogs_count) { Blog.all.count }
+
+    context 'when user is non-registred' do
+      before do
+        get '/blogs'
+      end
+
+      it 'responds :ok' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'return publics blogs' do
+        json_response = JSON.parse(response.body)['data']
+        expect(json_response.count).to eq(public_blogs_count)
+      end
+    end
+
+    context 'when user is registred' do
+      before do
+        get '/blogs', headers: registred_headers
+      end
+
+      it 'responds :ok' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'return all blogs' do
+        json_response = JSON.parse(response.body)['data']
+        expect(json_response.count).to eq(all_blogs_count)
+      end
+    end
+
+    context 'when user is admin' do
+      before do
+        get '/blogs', headers: admin_headers
+      end
+
+      it 'responds :ok' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'return all blogs' do
+        json_response = JSON.parse(response.body)['data']
+        expect(json_response.count).to eq(all_blogs_count)
       end
     end
   end
@@ -217,7 +270,7 @@ RSpec.describe 'Blogs', type: :request do
         let!(:public_blog) { create(:blog, :public) }
 
         before do
-          get "/blogs/#{public_blog.id}", headers: admin_user_headers
+          get "/blogs/#{public_blog.id}", headers: admin_headers
         end
 
         it 'responds :ok' do
@@ -229,7 +282,7 @@ RSpec.describe 'Blogs', type: :request do
         let!(:private_blog) { create(:blog, :private) }
 
         before do
-          get "/blogs/#{private_blog.id}", headers: admin_user_headers
+          get "/blogs/#{private_blog.id}", headers: admin_headers
         end
 
         it 'responds :ok' do
