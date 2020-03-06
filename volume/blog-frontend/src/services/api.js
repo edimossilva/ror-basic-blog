@@ -1,30 +1,34 @@
 import axios from 'axios';
+
 const HOST = 'http://localhost:3000'
 
 class Api {
-  simpleDelete(resource, params) {
+  headers(token = '') {
+    if (token) {
+      return { Authorization: `Basic ${token}` }
+    }
+    return {};
+  }
+
+  simpleDelete(resource, params, token) {
     let url = `${HOST}/${resource}/${params.id}`
-    return axios.delete(url);
+    return axios.delete(url, this.headers(token));
   }
 
-  simpleGet(resource, params) {
+  simpleGet(resource, { params = {}, token = "" }) {
     let url = `${HOST}/${resource}`
-    return axios.get(url, params);
+
+    return axios.get(url, { params, headers: this.headers(token) });
   }
 
-  nestedGet(mainResource, secondaryResource, id) {
+  nestedGet(mainResource, secondaryResource, id, token) {
     let url = `${HOST}/${mainResource}/${id}/${secondaryResource}`
-    return axios.get(url);
+    return axios.get(url, this.headers(token));
   }
 
-  simplePost(resource, params) {
+  simplePost(resource, params, token) {
     let url = `${HOST}/${resource}`
-    return axios.post(url, params);
-  }
-
-  simplePut(resource, params) {
-    let url = `${HOST}/${resource}/${params.id}`
-    return axios.put(url, params);
+    return axios.post(url, params, this.headers(token));
   }
 }
 

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListBlog.vue is a valid component 1`] = `
+<div>
+  <p>List Blogs</p>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>private</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>mockName1</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>mockName2</td>
+        <td>false</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`ListBlog.vue render blogs 1`] = `
+<div>
+  <p>List Blogs</p>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>private</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>mockName1</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>mockName2</td>
+        <td>false</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
