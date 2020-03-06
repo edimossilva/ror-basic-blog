@@ -4,15 +4,15 @@
 
     <div>
       <label> Username: </label>
-      <input type="text" v-model="username"> 
+      <input type="text" v-model="username" class="Login__username-input-js"> 
     </div>
     
     <div>
       <label> Password: </label>
-      <input type="password" v-model="password"> 
+      <input type="password" v-model="password" class="Login__password-input-js"> 
     </div>
 
-    <button @click="doLogin">Login</button>
+    <button @click="doLogin" class="Login__login-button-js">Login</button>
     <div>
       username: 'registered_user1', password: '111' <br>
       username: 'registered_user2', password: '222' <br>
@@ -43,13 +43,19 @@ export default {
         .catch(showErrorMessage);
     },
 
-    onLoginSuccess(response) {
-      this.saveToken(response);
+    onLoginSuccess({ data: { token, username } }) {
+      this.saveToken(token);
+      this.saveUsername(username);
+
       console.log("redirecthome");
     },
 
-    saveToken(response) {
-      this.$store.commit("saveToken", response);
+    saveToken(token) {
+      this.$store.commit("saveAuthToken", token);
+    },
+
+    saveUsername(username) {
+      this.$store.commit("saveUsername", username);
     },
 
     showErrorMessage(error) {

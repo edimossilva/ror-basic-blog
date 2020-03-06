@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login.vue is a valid component 1`] = `
+<div>
+  <p>Login</p>
+  <div><label> Username: </label> <input type="text" class="Login__username-input-js"></div>
+  <div><label> Password: </label> <input type="password" class="Login__password-input-js"></div> <button class="Login__login-button-js">Login</button>
+  <div>
+    username: 'registered_user1', password: '111' <br>
+    username: 'registered_user2', password: '222' <br>
+    username: 'admin_user1', password: '111' <br>
+    username: 'admin_user2', password: '222' <br></div>
+</div>
+`;

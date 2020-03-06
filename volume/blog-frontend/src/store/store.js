@@ -5,17 +5,22 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    authToken: {},
+    authToken: "",
+    username: ""
   },
   mutations: {
-    saveToken(state, token) {
+    saveAuthToken(state, token) {
       state.authToken = token;
     },
+    saveUsername(state, username) {
+      state.username = username;
+    },
     deleteToken(state) {
-      state.authToken = {};
+      state.authToken = "";
     }
   },
   getters: {
     authToken: state => state.authToken,
+    username: state => state.username,
   }
 });
