@@ -21,6 +21,7 @@ services:
       - ./config/bundle:/home/edimossilva/.bundle
       - ./config/bash/.bashrc:/home/edimossilva/.bashrc
       - ./config/bash/.bashhistory:/home/edimossilva/.bashhistory
+    working_dir: /home/edimossilva/development/volume/blog-backend
     depends_on:
       - db
     environment:
@@ -42,6 +43,7 @@ services:
       - "8080:8080"
     tty: true
     command: bash
+    working_dir: /home/edimossilva/development/volume/blog-frontend
 
 # docker-compose build
 # docker-compose up
