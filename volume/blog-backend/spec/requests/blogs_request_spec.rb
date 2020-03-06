@@ -210,6 +210,16 @@ RSpec.describe 'Blogs', type: :request do
         expect(json_response.count).to eq(all_blogs_count)
       end
     end
+
+    context 'when token is on ly Basic' do
+      before do
+        get '/blogs', headers: { Authorization: 'Basic' }
+      end
+
+      it 'responds :unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 
   describe '#show' do

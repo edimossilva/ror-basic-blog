@@ -37,7 +37,11 @@ module Auth
       return unless header
 
       header = header.split(' ').last
-      @decoded = decode_token(header)
+      begin
+        @decoded = decode_token(header)
+      rescue JWT::DecodeError => e
+        return render json: { errors: e.message }, status: :unauthorized
+      end
       @current_user = User.find(@decoded[:user_id])
     end
   end

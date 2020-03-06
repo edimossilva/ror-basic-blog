@@ -4,7 +4,7 @@ RSpec.describe 'Authentications', type: :request do
   describe '#login' do
     let!(:user) { create :user }
 
-    context 'When receive valid data' do
+    context 'When receive matching username and password' do
       before do
         post '/auth/login', params: { username: user.username, password: user.password }
       end
@@ -31,7 +31,7 @@ RSpec.describe 'Authentications', type: :request do
       end
     end
 
-    context 'When receive invalid data' do
+    context 'When receive NOT matching username and password' do
       context 'when invalid username and password' do
         before do
           post '/auth/login', params: { username: 'invalid username', password: 'invalid passowrd' }
