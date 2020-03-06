@@ -122,6 +122,8 @@ GEM
       slop (~> 3.0)
     puma (3.12.4)
     rack (2.2.2)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.2.1)
@@ -225,6 +227,7 @@ DEPENDENCIES
   pry-nav
   pry-remote
   puma (~> 3.11)
+  rack-cors
   rails (~> 6.0.0)
   rspec-rails (~> 4.0.0.beta)
   rubocop
