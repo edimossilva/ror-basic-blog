@@ -22,5 +22,6 @@ export const store = new Vuex.Store({
   getters: {
     authToken: state => state.authToken,
     username: state => state.username,
+    isLoged: state => !!state.authToken
   }
 });

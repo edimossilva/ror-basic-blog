@@ -46,7 +46,7 @@ export default {
     onLoginSuccess({ data: { token, username } }) {
       this.saveToken(token);
       this.saveUsername(username);
-
+      this.redirectToHomeIfLogged();
       console.log("redirecthome");
     },
 
@@ -61,7 +61,15 @@ export default {
     showErrorMessage(error) {
       // debugger; // eslint-disable-line
       console.log(`error ${error}`);
+    },
+    redirectToHomeIfLogged() {
+      if (this.$store.getters.isLoged) {
+        return this.$router.push({ name: "blogs" });
+      }
     }
+  },
+  mounted: function() {
+    this.redirectToHomeIfLogged();
   }
 };
 </script>
