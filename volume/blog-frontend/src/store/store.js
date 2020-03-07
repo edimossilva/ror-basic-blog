@@ -1,14 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+  plugins: [createPersistedState()],
+
   state: {
     authToken: "",
     username: "",
     userId: ""
   },
+
   mutations: {
     saveAuthToken(state, token) {
       state.authToken = token;
@@ -23,6 +27,7 @@ export const store = new Vuex.Store({
       state.authToken = "";
     }
   },
+
   getters: {
     authToken: state => state.authToken,
     username: state => state.username,
