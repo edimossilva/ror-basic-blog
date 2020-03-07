@@ -4,8 +4,11 @@ import VueRouter from 'vue-router';
 
 import { routes } from './routes';
 import { store } from './store/store';
+import VModal from 'vue-js-modal'
 
+Vue.use(VModal)
 Vue.use(VueRouter)
+
 Vue.config.productionTip = false
 
 const router = new VueRouter({ routes })

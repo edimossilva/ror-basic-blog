@@ -53,9 +53,15 @@ export default {
       this.$store.commit("saveUser", user);
     },
 
-    showErrorMessage(error) {
-      console.log(`error ${error}`);
+    showErrorMessage({
+      response: {
+        data: { error_message }
+      }
+    }) {
+      // debugger; // eslint-disable-line
+      this.$modal.show("modal", { message: error_message });
     },
+
     redirectToHomeIfLogged() {
       // debugger; // eslint-disable-line
 

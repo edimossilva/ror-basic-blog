@@ -48,11 +48,11 @@ export default {
 
     showErrorMessage({
       response: {
-        data: { errors }
+        data: { error_message }
       }
     }) {
-      debugger; // eslint-disable-line
-      console.log(errors);
+      // debugger; // eslint-disable-line
+      this.$modal.show("modal", { message: error_message });
     }
   },
 
