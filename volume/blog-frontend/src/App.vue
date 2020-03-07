@@ -12,6 +12,7 @@ import { routes } from "./routes";
 import RoutesMenu from "./components/routes-menu/RoutesMenu";
 import UserHeader from "./components/user-header/UserHeader";
 import AlertModal from "./components/alert-modal/AlertModal";
+import notificationService from "./services/notification_service";
 
 export default {
   name: "App",
@@ -26,6 +27,10 @@ export default {
     return {
       routes: routes
     };
+  },
+
+  mounted: function() {
+    notificationService.createCable(this);
   }
 };
 </script>
