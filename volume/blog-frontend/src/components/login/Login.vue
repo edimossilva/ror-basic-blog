@@ -46,13 +46,11 @@ export default {
     onLoginSuccess({ data }) {
       this.saveData(data);
       this.redirectToHomeIfLogged();
-      console.log("redirecthome");
     },
 
-    saveData({ token, username, userId }) {
-      this.$store.commit("saveAuthToken", token);
-      this.$store.commit("saveUsername", username);
-      this.$store.commit("saveUserId", userId);
+    saveData({ token, username, userId, accessLevel }) {
+      const user = { token, username, userId, accessLevel };
+      this.$store.commit("saveUser", user);
     },
 
     showErrorMessage(error) {

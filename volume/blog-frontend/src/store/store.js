@@ -8,32 +8,25 @@ export const store = new Vuex.Store({
   plugins: [createPersistedState()],
 
   state: {
-    authToken: "",
-    username: "",
-    userId: ""
+    user: {},
   },
 
   mutations: {
-    saveAuthToken(state, token) {
-      state.authToken = token;
+    saveUser(state, user) {
+      state.user = user;
     },
-    saveUsername(state, username) {
-      state.username = username;
-    },
-    saveUserId(state, userId) {
-      state.userId = userId;
-    },
-    deleteToken(state) {
-      state.authToken = ""
-      state.username = ""
-      state.userId = ""
+    deleteUser(state) {
+      state.user.token = ""
+      state.user.username = ""
+      state.user.userId = ""
     }
   },
 
   getters: {
-    authToken: state => state.authToken,
-    username: state => state.username,
-    userId: state => state.userId,
-    isLoged: state => !!state.authToken
+    authToken: state => state.user.token,
+    username: state => state.user.username,
+    userId: state => state.user.userId,
+    isLoged: state => state.user.token,
+    user: state => state.user
   }
 });
