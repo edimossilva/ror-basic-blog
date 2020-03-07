@@ -26,9 +26,9 @@ module Auth
         @decoded = decode_token(header)
         @current_user = User.find(@decoded[:user_id])
       rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e.message }, status: :unauthorized
-      rescue JWT::DecodeError => e
-        render json: { errors: e.message }, status: :unauthorized
+        render_unauthorized(e.message)
+      rescue JWT::DecodeError
+        render_unauthorized
       end
     end
 
@@ -39,10 +39,10 @@ module Auth
       header = header.split(' ').last
       begin
         @decoded = decode_token(header)
+        @current_user = User.find(@decoded[:user_id])
       rescue JWT::DecodeError => e
-        return render json: { errors: e.message }, status: :unauthorized
+        render_unauthorized(e.message)
       end
-      @current_user = User.find(@decoded[:user_id])
     end
   end
 end

@@ -21,8 +21,8 @@ class ApplicationController < ActionController::API
     render json: { data: entity }, status: :ok
   end
 
-  def render_unauthorized
-    render status: :unauthorized
+  def render_unauthorized(message = 'Unauthorized :(')
+    render json: { error_message: message }, status: :unauthorized
   end
 
   def render_unprocessable_entity(exception)

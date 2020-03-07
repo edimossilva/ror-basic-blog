@@ -18,7 +18,7 @@ class AuthenticationController < ApplicationController
       }
       render json: json, status: :ok
     else
-      render json: { error: 'unauthorized' }, status: :unauthorized
+      render_unauthorized
     end
   end
 
