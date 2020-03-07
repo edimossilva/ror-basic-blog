@@ -22,6 +22,12 @@ class Api {
     return axios.get(url, { params, headers: this.headers(token) });
   }
 
+  simpleGetResource(resource, resourceId, token) {
+    let url = `${HOST}/${resource}/${resourceId}`
+
+    return this.customInstance(token).get(url);
+  }
+
   nestedGet(mainResource, secondaryResource, id, token) {
     let url = `${HOST}/${mainResource}/${id}/${secondaryResource}`
     return axios.get(url, this.headers(token));

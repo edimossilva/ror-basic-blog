@@ -12,6 +12,10 @@ export default {
     return api.simpleDelete(BLOGS_RESOURCE, params.id, token);
   },
 
+  getBlog({ params, token }) {
+    return api.simpleGetResource(BLOGS_RESOURCE, params.id, token);
+  },
+
   getBlogs(params) {
     return api.simpleGet(BLOGS_RESOURCE, params);
   },

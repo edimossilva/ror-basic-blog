@@ -49,7 +49,6 @@ export default {
     },
     getBlogs() {
       const { onGetBlogsSuccess, showErrorMessage } = this;
-      // debugger; // eslint-disable-line
 
       blogsApi
         .getBlogs({ token: this.$store.getters.authToken })
@@ -69,7 +68,7 @@ export default {
     },
 
     redirectToShowBlog(blogId) {
-      console.log(`show blog ${blogId}`);
+      this.$router.push({ name: "showBlog", params: { id: blogId } });
     },
 
     redirectTocreateBlog() {
