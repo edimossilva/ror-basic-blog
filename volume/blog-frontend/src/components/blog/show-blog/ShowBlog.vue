@@ -24,6 +24,8 @@
       </tr>
     </tbody>
     </table>
+    <button @click="redirectTocreatePost()">Create Post</button>
+
   </div>
 </template>
 
@@ -90,6 +92,13 @@ export default {
       this.$router.push({
         name: "showPost",
         params: { id: postId, blogId: this.blog.id }
+      });
+    },
+
+    redirectTocreatePost() {
+      this.$router.push({
+        name: "createPost",
+        params: { blogId: this.blog.id }
       });
     }
   },

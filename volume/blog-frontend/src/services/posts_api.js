@@ -3,15 +3,15 @@ import api from './api';
 
 
 export default {
-  postResource({ blogId, id }) {
+  postResource({ blogId, id = "" }) {
     return `blogs/${blogId}/posts/${id}`
   },
-  createPost(params) {
-    return api.simplePost(this.postResource(params), params);
+
+  createPost({ params, token }) {
+    return api.simplePost(this.postResource(params), { token, params: { title: params.title } });
   },
 
   deletePost({ params, token }) {
-    // debugger; // eslint-disable-line
 
     return api.simpleDelete(this.postResource(params), token);
   },

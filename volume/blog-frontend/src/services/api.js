@@ -36,11 +36,13 @@ class Api {
 
   nestedGet(mainResource, secondaryResource, id, token) {
     let url = `${HOST}/${mainResource}/${id}/${secondaryResource}`
+
     return axios.get(url, this.headers(token));
   }
 
   simplePost(resource, { params = {}, token = "" }) {
     let url = `${HOST}/${resource}`
+
     return this.customInstance(token).post(url, params);
   }
 
