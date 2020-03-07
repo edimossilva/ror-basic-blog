@@ -4,6 +4,8 @@ class BlogsController < ApplicationController
 
   def create
     blog = Blog.create!(create_params)
+    BlogNotificationService.on_blog_created(blog)
+
     render_created(blog)
   end
 
