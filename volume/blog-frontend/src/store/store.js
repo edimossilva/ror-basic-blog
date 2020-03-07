@@ -24,7 +24,9 @@ export const store = new Vuex.Store({
       state.userId = userId;
     },
     deleteToken(state) {
-      state.authToken = "";
+      state.authToken = ""
+      state.username = ""
+      state.userId = ""
     }
   },
 

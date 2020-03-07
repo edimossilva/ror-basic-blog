@@ -19,15 +19,9 @@ export default {
   computed: {
     visibleRoutes() {
       // debugger; // eslint-disable-line
-      let filteredRoutes = [];
-
-      if (this.$store.getters.isLoged) {
-        filteredRoutes = this.routes.filter(route => route.name !== "login");
-      } else {
-        filteredRoutes = this.routes;
-      }
-
-      return filteredRoutes.filter(route => route.display);
+      return this.routes.filter(
+        route => route.display && route.name !== "login"
+      );
     }
   }
 };
