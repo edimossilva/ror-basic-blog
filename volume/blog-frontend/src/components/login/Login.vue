@@ -43,28 +43,26 @@ export default {
         .catch(showErrorMessage);
     },
 
-    onLoginSuccess({ data: { token, username } }) {
-      this.saveToken(token);
-      this.saveUsername(username);
+    onLoginSuccess({ data }) {
+      this.saveData(data);
       this.redirectToHomeIfLogged();
       console.log("redirecthome");
     },
 
-    saveToken(token) {
+    saveData({ token, username, userId }) {
       this.$store.commit("saveAuthToken", token);
-    },
-
-    saveUsername(username) {
       this.$store.commit("saveUsername", username);
+      this.$store.commit("saveUserId", userId);
     },
 
     showErrorMessage(error) {
-      // debugger; // eslint-disable-line
       console.log(`error ${error}`);
     },
     redirectToHomeIfLogged() {
+      // debugger; // eslint-disable-line
+
       if (this.$store.getters.isLoged) {
-        return this.$router.push({ name: "blogs" });
+        return this.$router.push({ name: "listBlogs" });
       }
     }
   },

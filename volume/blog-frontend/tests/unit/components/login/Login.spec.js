@@ -1,8 +1,17 @@
-import { mount, config } from '@vue/test-utils'
-import Login from '@/components/login/Login'
-import { store } from '@/store/store'
+import { mount, config, createLocalVue } from '@vue/test-utils'
 
+import VueRouter from "vue-router"
+import Login from '@/components/login/Login'
+
+import { store } from '@/store/store'
+import { routes } from "../../../../src/routes"
 config.mocks.$store = store
+
+const localVue = createLocalVue()
+localVue.use(VueRouter)
+const router = new VueRouter({ routes })
+
+
 describe('Login.vue', () => {
   const mockUsername = "mockUsername"
   const mockPassword = "mockPassword"
@@ -49,6 +58,8 @@ describe('Login.vue', () => {
   describe('Methods', () => {
     describe('onLoginSuccess', () => {
       const wrapper = mount(Login, {
+        localVue,
+        router,
         store
       })
 
@@ -62,10 +73,10 @@ describe('Login.vue', () => {
         wrapper.vm.onLoginSuccess(response)
       });
 
-      it('should save token and username in store', () => {
+      it('should save username in store', () => {
         expect(store.state.username).toEqual(mockUsername)
       })
-      it('should save token and username in store', () => {
+      it('should save token in store', () => {
         expect(store.state.authToken).toEqual(mockToken)
       })
     })
