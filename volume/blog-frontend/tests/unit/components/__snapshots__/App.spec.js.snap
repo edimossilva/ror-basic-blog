@@ -5,7 +5,8 @@ exports[`App is a valid component 1`] = `
   <nav>
     <ul>
       <li><a href="#/login" class="router-link">Login</a></li>
-      <li><a href="#/blogs" class="router-link">Blogs</a></li>
+      <li><a href="#/blogs" class="router-link">List Blogs</a></li>
+      <li><a href="#/blogs/new" class="router-link">Create Blogs</a></li>
     </ul>
   </nav>
   <!---->

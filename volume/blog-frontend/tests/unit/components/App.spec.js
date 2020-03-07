@@ -1,8 +1,12 @@
-import { mount, createLocalVue } from "@vue/test-utils"
-import App from "@/App.vue"
+import { mount, config, createLocalVue } from "@vue/test-utils"
+
 import VueRouter from "vue-router"
+import App from "@/App.vue"
 import Login from '@/components/login/Login'
+
+import { store } from '@/store/store'
 import { routes } from "../../../src/routes"
+config.mocks.$store = store
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
@@ -29,7 +33,6 @@ describe("App", () => {
       router.push("/login")
       await wrapper.vm.$nextTick()
 
-      const loginComponent = wrapper.find(Login)
       expect(wrapper.find(Login).exists()).toBe(true)
     })
   });

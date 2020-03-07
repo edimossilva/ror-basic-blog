@@ -8,6 +8,7 @@
           <th>id</th>
           <th>name</th>
           <th>private</th>
+          <th>show</th>
         </tr>
       </thead>
       <tbody>
@@ -15,9 +16,11 @@
           <td>{{blog.id}}</td>
           <td>{{blog.name}}</td>
           <td>{{blog.is_private}}</td>
+          <button @click="redirectToShowBlog(blog.id)" class="ListBlog__showBlog-button-js">Show</button>
         </tr>
       </tbody>
     </table>
+    <button @click="redirectTocreateBlog()" class="ListBlog__createBlog-button-js">Create</button>
   </div>
 </template>
 
@@ -41,13 +44,23 @@ export default {
         .then(onGetBlogsSuccess)
         .catch(showErrorMessage);
     },
+
     onGetBlogsSuccess({ data: { data: blogs } }) {
       // debugger; // eslint-disable-line
       this.blogs = blogs;
     },
+
     showErrorMessage(error) {
+      debugger; // eslint-disable-line
+
       console.log(`error ${error}`);
-    }
+    },
+
+    redirectToShowBlog(blogId) {
+      console.log(`show blog ${blogId}`);
+    },
+
+    redirectTocreateBlog() {}
   },
 
   mounted: function() {

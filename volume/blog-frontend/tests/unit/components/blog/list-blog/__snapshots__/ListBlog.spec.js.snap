@@ -1,32 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ListBlog.vue is a valid component 1`] = `
-<div>
-  <p>List Blogs</p>
-  <table>
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>private</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>mockName1</td>
-        <td>true</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>mockName2</td>
-        <td>false</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-`;
-
 exports[`ListBlog.vue render blogs 1`] = `
 <div>
   <p>List Blogs</p>
@@ -36,20 +9,21 @@ exports[`ListBlog.vue render blogs 1`] = `
         <th>id</th>
         <th>name</th>
         <th>private</th>
+        <th>show</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>1</td>
         <td>mockName1</td>
-        <td>true</td>
+        <td>true</td> <button class="ListBlog__showBlog-button-js">Show</button>
       </tr>
       <tr>
         <td>2</td>
         <td>mockName2</td>
-        <td>false</td>
+        <td>false</td> <button class="ListBlog__showBlog-button-js">Show</button>
       </tr>
     </tbody>
-  </table>
+  </table> <button class="ListBlog__createBlog-button-js">Create</button>
 </div>
 `;

@@ -26,9 +26,15 @@ class Api {
     return axios.get(url, this.headers(token));
   }
 
-  simplePost(resource, params, token) {
+  simplePost(resource, { params = {}, token = "" }) {
     let url = `${HOST}/${resource}`
-    return axios.post(url, params, this.headers(token));
+    return this.customInstance(token).post(url, params);
+  }
+
+  customInstance(token) {
+    return axios.create({
+      headers: this.headers(token)
+    });
   }
 }
 
