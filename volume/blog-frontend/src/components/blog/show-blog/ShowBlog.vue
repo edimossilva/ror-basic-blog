@@ -12,13 +12,15 @@
           <th>id</th>
           <th>title</th>
           <th>show post</th>
+          <th>delete</th>
         </tr>
       </thead>
       <tbody>
       <tr v-for="post in blog.posts" v-bind:key="post.id">
         <td>{{post.id}}</td>
         <td>{{post.title}}</td>
-          <td><button @click="redirectToShowPost(post.id)">Show</button></td>
+        <td><button @click="redirectToShowPost(post.id)">Show post</button></td>
+        <td><button @click="deletePost(post.id)">Delete post</button></td>
       </tr>
     </tbody>
     </table>
@@ -27,6 +29,7 @@
 
 <script>
 import blogsApi from "../../../services/blogs_api";
+import postsApi from "../../../services/posts_api";
 
 export default {
   props: {
@@ -42,6 +45,21 @@ export default {
   },
 
   methods: {
+    deletePost(postId) {
+      const { onDeletePost, showErrorMessage } = this;
+      const params = {
+        blogId: this.id,
+        id: postId
+      };
+
+      postsApi
+        .deletePost({ params, token: this.$store.getters.authToken })
+        .then(onDeletePost)
+        .catch(showErrorMessage);
+    },
+    onDeletePost() {
+      console.log("deleted post");
+    },
     getBlog() {
       const params = {
         id: this.id

@@ -9,7 +9,7 @@ export default {
   },
 
   deleteBlog({ params, token }) {
-    return api.simpleDelete(BLOGS_RESOURCE, params.id, token);
+    return api.simpleDeleteResource(BLOGS_RESOURCE, params.id, token);
   },
 
   getBlog({ params, token }) {

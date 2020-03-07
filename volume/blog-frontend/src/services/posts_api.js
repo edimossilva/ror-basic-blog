@@ -11,7 +11,9 @@ export default {
   },
 
   deletePost({ params, token }) {
-    return api.simpleDelete(this.postResource(params), params.id, token);
+    // debugger; // eslint-disable-line
+
+    return api.simpleDelete(this.postResource(params), token);
   },
 
   getPost({ params, token }) {

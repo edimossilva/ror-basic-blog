@@ -10,8 +10,14 @@ class Api {
     return {};
   }
 
-  simpleDelete(resource, resource_id, token) {
+  simpleDeleteResource(resource, resource_id, token) {
     let url = `${HOST}/${resource}/${resource_id}`
+
+    return this.customInstance(token).delete(url);
+  }
+
+  simpleDelete(resource, token) {
+    let url = `${HOST}/${resource}`
 
     return this.customInstance(token).delete(url);
   }
