@@ -11,5 +11,8 @@ user2 = User.create(username: 'registered_user2', password: '222', access_level:
 User.create(username: 'admin_user1', password: '111', access_level: User.access_levels[:admin])
 User.create(username: 'admin_user2', password: '222', access_level: User.access_levels[:admin])
 
-Blog.create(name: 'registered_user1 news', user_id: user1.id, is_private: false)
-Blog.create(name: 'registered_user2 olds', user_id: user2.id, is_private: true)
+blog1 = Blog.create(name: 'registered_user1 news', user_id: user1.id, is_private: false)
+blog2 = Blog.create(name: 'registered_user2 olds', user_id: user2.id, is_private: true)
+
+Post.create(title: 'post title1', blog_id: blog1.id, user_id: user1.id)
+Post.create(title: 'post title2', blog_id: blog2.id, user_id: user2.id)

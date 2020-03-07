@@ -27,7 +27,7 @@ class BlogsController < ApplicationController
     blog = Blog.find_by!(id: search_params[:id])
 
     if BlogAccessLevel.can_show?(@current_user, blog)
-      render_ok(blog)
+      render_ok(blog.to_json(include: :posts))
     else
       render_unauthorized
     end
