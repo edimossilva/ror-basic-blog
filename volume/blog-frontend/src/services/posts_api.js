@@ -12,7 +12,6 @@ export default {
   },
 
   deletePost({ params, token }) {
-
     return api.simpleDelete(this.postResource(params), token);
   },
 

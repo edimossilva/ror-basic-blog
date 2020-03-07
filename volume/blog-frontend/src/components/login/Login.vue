@@ -24,6 +24,7 @@
 
 <script>
 import authService from "../../services/auth_service";
+import notificationService from "../../services/notification_service";
 
 export default {
   data() {
@@ -45,6 +46,7 @@ export default {
 
     onLoginSuccess({ data }) {
       this.saveData(data);
+      this.registerToNotifications();
       this.redirectToHomeIfLogged();
     },
 
@@ -60,6 +62,10 @@ export default {
     }) {
       // debugger; // eslint-disable-line
       this.$modal.show("modal", { message: error_message });
+    },
+
+    registerToNotifications() {
+      notificationService.createCable(this);
     },
 
     redirectToHomeIfLogged() {

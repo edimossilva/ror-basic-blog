@@ -34,6 +34,7 @@ services:
     command: bash
     ports:
       - "3000:3000"
+      
   vue:
     build:
       context: "."
@@ -43,9 +44,10 @@ services:
     ports:
       - "8080:8080"
     tty: true
-    command: bash
+    command: yarn serve
     working_dir: /home/edimossilva/development/volume/blog-frontend
-
+    depends_on:
+      - rails
 # docker-compose build
 # docker-compose up
 # docker exec -it ror-basic-blog_rails_1 bash

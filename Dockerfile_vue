@@ -5,3 +5,6 @@ WORKDIR /home/edimossilva/development/volume
 
 # utils
 RUN yarn global add @vue/cli
+
+#install dependencies
+RUN yarn
