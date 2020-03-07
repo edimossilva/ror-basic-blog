@@ -11,12 +11,14 @@
         <tr>
           <th>id</th>
           <th>title</th>
+          <th>show post</th>
         </tr>
       </thead>
       <tbody>
       <tr v-for="post in blog.posts" v-bind:key="post.id">
         <td>{{post.id}}</td>
         <td>{{post.title}}</td>
+          <td><button @click="redirectToShowPost(post.id)">Show</button></td>
       </tr>
     </tbody>
     </table>
@@ -64,6 +66,13 @@ export default {
     }) {
       debugger; // eslint-disable-line
       console.log(errors);
+    },
+
+    redirectToShowPost(postId) {
+      this.$router.push({
+        name: "showPost",
+        params: { id: postId, blogId: this.blog.id }
+      });
     }
   },
 
