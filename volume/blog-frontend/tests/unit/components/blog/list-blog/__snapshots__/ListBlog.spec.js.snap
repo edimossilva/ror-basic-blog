@@ -10,20 +10,25 @@ exports[`ListBlog.vue render blogs 1`] = `
         <th>name</th>
         <th>private</th>
         <th>show</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>1</td>
         <td>mockName1</td>
-        <td>true</td> <button class="ListBlog__showBlog-button-js">Show</button>
+        <td>true</td>
+        <td><button class="ListBlog__showBlog-button-js">Show</button></td>
+        <td><button class="ListBlog__deleteBlog-button-js">Delete</button></td>
       </tr>
       <tr>
         <td>2</td>
         <td>mockName2</td>
-        <td>false</td> <button class="ListBlog__showBlog-button-js">Show</button>
+        <td>false</td>
+        <td><button class="ListBlog__showBlog-button-js">Show</button></td>
+        <td><button class="ListBlog__deleteBlog-button-js">Delete</button></td>
       </tr>
     </tbody>
-  </table> <button>Create</button>
+  </table> <button>Create Blog</button>
 </div>
 `;

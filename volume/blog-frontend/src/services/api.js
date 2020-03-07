@@ -10,9 +10,10 @@ class Api {
     return {};
   }
 
-  simpleDelete(resource, params, token) {
-    let url = `${HOST}/${resource}/${params.id}`
-    return axios.delete(url, this.headers(token));
+  simpleDelete(resource, resource_id, token) {
+    let url = `${HOST}/${resource}/${resource_id}`
+
+    return this.customInstance(token).delete(url);
   }
 
   simpleGet(resource, { params = {}, token = "" }) {
