@@ -1585,6 +1585,11 @@ acorn@^7.1.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.1.1.tgz#e35668de0b402f359de515c5482a1ab9f89a69bf"
   integrity sha512-add7dgA5ppRPxCFJoAGfMDi7PIBXq1RtGo7BhbLaxwrXPOmw8gq48Y9ozT01hUKy9byMjlR20EJhu5zlkErEkg==
 
+actioncable@^5.2.4-1:
+  version "5.2.4-1"
+  resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.4-1.tgz#e47d1a238a5bacba920a4644a87ee720920e3fc2"
+  integrity sha512-wOc5U5Y2w9taG/kkPcBixUlsrDrq2uxnxKDFNH8JQe+QCVj/p921hBslE0NS4ybJpUNZfO1NKDPlqp2oqkR03Q==
+
 address@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/address/-/address-1.1.2.tgz#bf1116c9c758c51b7a933d296b72c221ed9428b6"
