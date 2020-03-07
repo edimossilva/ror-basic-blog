@@ -20,7 +20,7 @@ RSpec.describe 'Authentications', type: :request do
 
       it "responds with user's access_level" do
         json_response = JSON.parse(response.body)
-        expect(json_response['access_level']).to eq(user.access_level)
+        expect(json_response['accessLevel']).to eq(user.access_level)
       end
 
       it 'responds with a token related to the user id' do

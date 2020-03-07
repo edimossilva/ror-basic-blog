@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
 
   def create
     blog = Blog.create!(create_params)
-    render json: blog, status: :created
+    render_created(blog)
   end
 
   def destroy

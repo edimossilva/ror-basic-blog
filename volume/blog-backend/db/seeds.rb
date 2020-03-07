@@ -7,8 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 user1 = User.create(username: 'registered_user1', password: '111', access_level: User.access_levels[:registred])
-User.create(username: 'registered_user2', password: '222', access_level: User.access_levels[:registred])
+user2 = User.create(username: 'registered_user2', password: '222', access_level: User.access_levels[:registred])
 User.create(username: 'admin_user1', password: '111', access_level: User.access_levels[:admin])
 User.create(username: 'admin_user2', password: '222', access_level: User.access_levels[:admin])
 
-Blog.create(name: 'edimo news', user_id: user1.id, is_private: false)
+Blog.create(name: 'registered_user1 news', user_id: user1.id, is_private: false)
+Blog.create(name: 'registered_user2 olds', user_id: user2.id, is_private: true)

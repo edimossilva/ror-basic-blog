@@ -30,7 +30,7 @@ RSpec.describe 'Blogs', type: :request do
         end
 
         it 'contains fields from params' do
-          json_response = JSON.parse(response.body)
+          json_response = JSON.parse(response.body)['data']
           expect(json_response['name']).to eq(name)
           expect(json_response['is_private']).to eq(is_private)
         end
