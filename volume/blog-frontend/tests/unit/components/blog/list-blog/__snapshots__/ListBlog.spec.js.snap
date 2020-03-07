@@ -24,6 +24,6 @@ exports[`ListBlog.vue render blogs 1`] = `
         <td>false</td> <button class="ListBlog__showBlog-button-js">Show</button>
       </tr>
     </tbody>
-  </table> <button class="ListBlog__createBlog-button-js">Create</button>
+  </table> <button>Create</button>
 </div>
 `;

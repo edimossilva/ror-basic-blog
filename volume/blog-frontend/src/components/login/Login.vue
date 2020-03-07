@@ -62,7 +62,7 @@ export default {
       // debugger; // eslint-disable-line
 
       if (this.$store.getters.isLoged) {
-        return this.$router.push({ name: "listBlogs" });
+        this.$router.push({ name: "listBlogs" });
       }
     }
   },

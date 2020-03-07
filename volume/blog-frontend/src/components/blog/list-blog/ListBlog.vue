@@ -20,7 +20,7 @@
         </tr>
       </tbody>
     </table>
-    <button @click="redirectTocreateBlog()" class="ListBlog__createBlog-button-js">Create</button>
+    <button @click="redirectTocreateBlog()">Create</button>
   </div>
 </template>
 
@@ -60,7 +60,9 @@ export default {
       console.log(`show blog ${blogId}`);
     },
 
-    redirectTocreateBlog() {}
+    redirectTocreateBlog() {
+      this.$router.push({ name: "createBlog" });
+    }
   },
 
   mounted: function() {

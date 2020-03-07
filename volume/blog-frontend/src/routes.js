@@ -5,5 +5,5 @@ import CreateBlog from './components/blog/create-blog/CreateBlog.vue'
 export const routes = [
   { name: 'login', path: '/login', component: Login, title: 'Login' },
   { name: 'listBlogs', path: '/blogs', component: ListBlog, title: 'List Blogs' },
-  { name: 'createBlogs', path: '/blogs/new', component: CreateBlog, title: 'Create Blogs' },
+  { name: 'createBlog', path: '/blogs/new', component: CreateBlog, title: 'Create Blog' },
 ]
