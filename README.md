@@ -3,12 +3,10 @@
 1. Allows non-registered visitors to
    1. Read any blog that is not ‘private’
       - [X] backend
-      
-      - [ ] frontend
+      - [X] frontend
    1. Read any post that belong to the blogs they can read
       - [X] backend
-      
-      - [ ] frontend
+      - [X] frontend
    1. Write comments on any post
       - [ ] backend
       - [ ] frontend
@@ -22,16 +20,13 @@
       - [ ] frontend
    1. Create Posts for their blogs
       - [X] backend
-      
-      - [ ] frontend
+      - [X] frontend
    1. Delete their posts
       - [X] backend
-      
-      - [ ] frontend
+      - [X] frontend
    1. Read any blog
       - [X] backend
-      
-      - [ ] frontend
+      - [X] frontend
    1. Delete comments on their blogs written by non-registered visitors or non-admin users
       - [ ] backend
       - [ ] frontend
