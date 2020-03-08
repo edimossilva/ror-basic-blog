@@ -3,26 +3,44 @@ import ActionCable from "actioncable";
 const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
 
 export default {
-  createCable(appInstance) {
-    const token = appInstance.$store.getters.authToken
+  createCable({ channel, token, onDataReceived }) {
     cable.subscriptions.create(
       {
-        channel: "BlogCreatedChannel",
+        channel,
         token
       },
       {
         connected: function () {
-          console.log("connected");
+          console.log(`connected to ${channel}`);
         },
         disconnected: function () {
-          console.log("disconnected");
+          console.log(`disconnected from ${channel}`);
         },
         received: data => {
           // debugger; // eslint-disable-line
           console.log("notification received:", data);
-          appInstance.$modal.show("modal", { message: data.message });
+          onDataReceived("modal", { message: data.message });
         }
       }
     );
   },
+
+  createCableByUser({ user, onDataReceived }) {
+    const blogChannel = "BlogCreatedChannel";
+    const postChannel = "PostDeletedChannel";
+
+    if (user.accessLevel !== "admin") {
+      this.createCable({
+        channel: postChannel,
+        token: user.token,
+        onDataReceived
+      });
+    } else if (user.accessLevel !== "registred") {
+      this.createCable({
+        channel: blogChannel,
+        token: user.token,
+        onDataReceived
+      });
+    }
+  }
 }

@@ -29,8 +29,30 @@ export default {
     };
   },
 
+  computed: {
+    isLoged() {
+      return this.$store.getters.isLoged;
+    }
+  },
+
   mounted: function() {
-    notificationService.createCable(this);
+    if (!this.$store.getters.isLoged) {
+      return;
+    }
+
+    this.registerToNotifications();
+  },
+
+  methods: {
+    registerToNotifications() {
+      const user = this.$store.getters.user;
+      const showModal = this.$modal.show;
+
+      notificationService.createCableByUser({
+        user,
+        onDataReceived: showModal
+      });
+    }
   }
 };
 </script>

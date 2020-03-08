@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     saveUser(state, user) {
       state.user = user;
     },
+
     deleteUser(state) {
       state.user.token = ""
       state.user.username = ""

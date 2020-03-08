@@ -7,7 +7,8 @@ class PostsController < ApplicationController
     post.user_id = @current_user.id
 
     if PostAccessLevel.can_create?(@current_user, post)
-      render_created(post) if post.save!
+      post.save!
+      render_created(post)
     else
       render_unauthorized
     end
@@ -17,7 +18,10 @@ class PostsController < ApplicationController
     post = Post.find_by!(id: search_params[:id], blog_id: search_params[:blog_id])
 
     if PostAccessLevel.can_delete?(@current_user, post)
-      render_destroyed if post.destroy!
+      post.destroy!
+
+      PostNotificationService.on_post_deleted(post)
+      render_destroyed
     else
       render_unauthorized
     end

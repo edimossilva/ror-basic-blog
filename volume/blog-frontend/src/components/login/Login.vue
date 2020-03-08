@@ -46,7 +46,7 @@ export default {
 
     onLoginSuccess({ data }) {
       this.saveData(data);
-      this.registerToNotifications();
+      this.registerToNotifications(data);
       this.redirectToHomeIfLogged();
     },
 
@@ -64,8 +64,13 @@ export default {
       this.$modal.show("modal", { message: error_message });
     },
 
-    registerToNotifications() {
-      notificationService.createCable(this);
+    registerToNotifications(user) {
+      const showModal = this.$modal.show;
+
+      notificationService.createCableByUser({
+        user,
+        onDataReceived: showModal
+      });
     },
 
     redirectToHomeIfLogged() {
