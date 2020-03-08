@@ -7,8 +7,7 @@ class PostsController < ApplicationController
     post.user_id = @current_user.id
 
     if PostAccessLevel.can_create?(@current_user, post)
-      post.save!
-      render_created(post)
+      render_created(post) if post.save!
     else
       render_unauthorized
     end

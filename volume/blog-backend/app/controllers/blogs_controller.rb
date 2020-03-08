@@ -3,10 +3,15 @@ class BlogsController < ApplicationController
   before_action :public_request, only: %i[index show]
 
   def create
-    blog = Blog.create!(create_params)
-    BlogNotificationService.on_blog_created(blog)
+    blog = Blog.new(create_params)
 
-    render_created(blog)
+    if BlogAccessLevel.can_create?(@current_user, blog)
+      blog.save!
+      BlogNotificationService.on_blog_created(blog)
+      render_created(blog)
+    else
+      render_unauthorized
+    end
   end
 
   def destroy

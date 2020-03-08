@@ -83,20 +83,37 @@ RSpec.describe 'Blogs', type: :request do
               post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: registred_headers
             end
 
-            it 'responds :unprocessable_entity' do
-              expect(response).to have_http_status(:unprocessable_entity)
+            it 'responds :unauthorized' do
+              expect(response).to have_http_status(:unauthorized)
             end
 
             it 'contains error messages' do
               json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq('Validation failed: User must exist')
-            end
-
-            it 'error is name: cant be empty' do
-              json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq('Validation failed: User must exist')
+              expect(json_response['error_message']).to eq('Unauthorized')
             end
           end
+          context 'when user_id is from another user' do
+            before do
+              post '/blogs', params: { name: name, is_private: is_private, user_id: another_admin_user.id }, headers: registred_headers
+            end
+
+            it 'responds :unauthorized' do
+              expect(response).to have_http_status(:unauthorized)
+            end
+
+            it 'contains error messages' do
+              json_response = JSON.parse(response.body)
+              expect(json_response['error_message']).to eq('Unauthorized')
+            end
+          end
+        end
+      end
+      context 'when non registred user' do
+        before do
+          post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }
+        end
+        it 'responds :unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
         end
       end
     end
