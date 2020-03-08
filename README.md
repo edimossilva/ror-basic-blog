@@ -47,8 +47,8 @@
 
 1. Triggers these actions:
    1. Notify (by whatever means you consider appropriate) admin users when a new blog is created
-      - [ ] backend
-      - [ ] frontend
+      - [X] backend
+      - [X] frontend
    1. Notify blog owners when a new comment is written in one of their posts
       - [ ] backend
       - [ ] frontend
