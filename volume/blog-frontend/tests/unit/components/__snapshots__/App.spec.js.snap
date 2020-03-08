@@ -12,6 +12,6 @@ exports[`App is a valid component 1`] = `
     </ul>
   </nav>
   <!---->
-  <modal name="modal" width="300" height="300"><b></b></modal>
+  <modal-stub name="modal" width="300" height="300"><b></b></modal-stub>
 </div>
 `;

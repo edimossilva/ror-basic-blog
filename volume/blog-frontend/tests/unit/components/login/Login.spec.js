@@ -15,7 +15,6 @@ const router = new VueRouter({ routes })
 describe('Login.vue', () => {
   const mockUsername = "mockUsername"
   const mockPassword = "mockPassword"
-  const mockToken = "mockToken"
 
   it('is a valid component', () => {
     const wrapper = mount(Login, {

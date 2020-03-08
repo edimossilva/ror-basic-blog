@@ -16,7 +16,10 @@ describe("App", () => {
   it('is a valid component', () => {
     const wrapper = mount(App, {
       localVue,
-      router
+      router,
+      stubs: {
+        modal: true
+      },
     })
 
     expect(wrapper.isVueInstance()).toBeTruthy()
@@ -26,7 +29,10 @@ describe("App", () => {
   describe('router', () => {
     const wrapper = mount(App, {
       localVue,
-      router
+      router,
+      stubs: {
+        modal: true
+      },
     })
 
     it("visits login", async () => {

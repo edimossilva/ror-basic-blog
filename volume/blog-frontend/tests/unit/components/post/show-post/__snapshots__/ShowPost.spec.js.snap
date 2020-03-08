@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowPost.vue is a valid component 1`] = `
+<div>
+  <h3>Show Post</h3>
+  <div>
+    <p> Post Title: mockTitle </p>
+    <p> Post Owner: mockOwner </p>
+  </div> <button>Show posts</button> <button>Create post</button>
+</div>
+`;
