@@ -5,6 +5,7 @@ exports[`ShowBlog.vue is a valid component 1`] = `
   <div>
     <h3> Blog Name: mockName </h3>
   </div>
+  <p>List Blogs</p>
   <table>
     <thead>
       <tr>

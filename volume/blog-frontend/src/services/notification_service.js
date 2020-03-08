@@ -17,7 +17,6 @@ export default {
           console.log(`disconnected from ${channel}`);
         },
         received: data => {
-          // debugger; // eslint-disable-line
           console.log("notification received:", data);
           onDataReceived("modal", { message: data.message });
         }

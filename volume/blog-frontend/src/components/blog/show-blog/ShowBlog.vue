@@ -4,6 +4,8 @@
       <h3> Blog Name: {{blog.name}} </h3>
     </div>
     
+    <p>List Blogs</p>
+
     <table>
       <thead>
         <tr>
@@ -77,8 +79,6 @@ export default {
     },
 
     updateData({ data: { data } }) {
-      // debugger; // eslint-disable-line
-
       this.blog = data;
     },
 

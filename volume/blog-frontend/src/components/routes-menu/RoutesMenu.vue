@@ -18,7 +18,6 @@ export default {
   },
   computed: {
     visibleRoutes() {
-      // debugger; // eslint-disable-line
       return this.routes.filter(
         route => route.display && route.name !== "login"
       );

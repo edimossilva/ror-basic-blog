@@ -14,4 +14,3 @@ export const routes = [
   { name: 'showBlog', path: '/blogs/:id', component: ShowBlog, title: 'Show Blog', display: false, props: true },
   { name: 'showPost', path: '/blogs/:blogId/posts/:id', component: ShowPost, title: 'Show Post', display: false, props: true },
 ]
-

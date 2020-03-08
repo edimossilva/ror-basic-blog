@@ -29,7 +29,7 @@ describe('Login.vue', () => {
   })
 
   describe('Behaviour', () => {
-    describe('When fill username and password', () => {
+    describe('When fill username and password, and click login button', () => {
       const doLoginSpy = jest.fn()
       Login.methods.doLogin = doLoginSpy
 
@@ -71,7 +71,8 @@ describe('Login.vue', () => {
         store,
         stubs: {
           modal: true
-        }
+        },
+        methods: { registerToNotifications: jest.fn() },
       })
 
       const user = { token: "token", username: "username", userId: "userId", accessLevel: "accessLevel" }

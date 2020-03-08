@@ -56,7 +56,6 @@ export default {
     },
 
     onGetBlogsSuccess({ data: { data: blogs } }) {
-      // debugger; // eslint-disable-line
       this.blogs = blogs;
     },
 

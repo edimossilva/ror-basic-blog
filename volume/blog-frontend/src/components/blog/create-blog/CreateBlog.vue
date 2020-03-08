@@ -45,6 +45,7 @@ export default {
         .then(this.redirectToShowBlog)
         .catch(this.showErrorMessage);
     },
+
     redirectToShowBlog({ data: { data } }) {
       this.$router.push({ name: "showBlog", params: { id: data.id } });
     },

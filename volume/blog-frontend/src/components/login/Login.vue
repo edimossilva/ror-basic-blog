@@ -74,8 +74,6 @@ export default {
     },
 
     redirectToHomeIfLogged() {
-      // debugger; // eslint-disable-line
-
       if (this.$store.getters.isLoged) {
         this.$router.push({ name: "listBlogs" });
       }

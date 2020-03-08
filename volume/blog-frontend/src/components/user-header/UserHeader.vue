@@ -18,7 +18,7 @@ export default {
         return "not registred";
       }
       const user = this.$store.getters.user;
-      return `username: ${user.username}, accessLevel: ${user.accessLevel}, id: ${user}`;
+      return `username: ${user.username}, accessLevel: ${user.accessLevel}`;
     },
     isLoged: function() {
       return this.$store.getters.isLoged;
