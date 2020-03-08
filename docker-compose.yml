@@ -34,7 +34,7 @@ services:
       RAILS_MASTER_KEY: "a667717bf0a47475b0582547379c816d" 
         # "${RAILS_MASTER_KEY}"
     tty: true
-    command: rails s -b 0
+    command: bash
     ports:
       - "3000:3000"
       
@@ -48,7 +48,7 @@ services:
     ports:
       - "8080:8080"
     tty: true
-    command: yarn serve
+    command: bash
     working_dir: /home/edimossilva/development/volume/blog-frontend
     depends_on:
       - rails
