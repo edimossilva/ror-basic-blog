@@ -47,10 +47,11 @@ export default {
     },
     showErrorMessage({
       response: {
-        data: { errors }
+        data: { error_message }
       }
     }) {
-      console.log(errors);
+      // debugger; // eslint-disable-line
+      this.$modal.show("modal", { message: error_message });
     }
   }
 };

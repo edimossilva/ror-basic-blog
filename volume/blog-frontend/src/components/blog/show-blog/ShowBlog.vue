@@ -61,7 +61,7 @@ export default {
         .catch(showErrorMessage);
     },
     onDeletePost() {
-      console.log("deleted post");
+      location.reload();
     },
     getBlog() {
       const params = {
