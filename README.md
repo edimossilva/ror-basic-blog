@@ -1,54 +1,32 @@
-# ror-basic-blog
+# install
 
-1. Allows non-registered visitors to
-   1. Read any blog that is not ‘private’
-      - [X] backend
-      - [X] frontend
-   1. Read any post that belong to the blogs they can read
-      - [X] backend
-      - [X] frontend
-   1. Write comments on any post
-      - [ ] backend
-      - [ ] frontend
-   1. Write comments on any comment
-      - [ ] backend
-      - [ ] frontend
+1. build containers
 
-1. Allows registered users to:
-   1. Do everything non-registered visitors can do
-      - [ ] backend
-      - [ ] frontend
-   1. Create Posts for their blogs
-      - [X] backend
-      - [X] frontend
-   1. Delete their posts
-      - [X] backend
-      - [X] frontend
-   1. Read any blog
-      - [X] backend
-      - [X] frontend
-   1. Delete comments on their blogs written by non-registered visitors or non-admin users
-      - [ ] backend
-      - [ ] frontend
+   ```docker-compose build```
 
-1. Allows admin users to:
-   1. Do everything registered users can do
-      - [ ] backend
-      - [ ] frontend
-   1. Delete blogs that don’t belong to other admins
-      - [X] backend 
-      - [X] frontend
-   1. Delete posts that don’t belong to other admins
-      - [X] backend
-      - [X] frontend
-   1. Delete comments that don’t belong to other admins
-      - [ ] backend
-      - [ ] frontend
+1. start containers in background
 
-1. Triggers these actions:
-   1. Notify (by whatever means you consider appropriate) admin users when a new blog is created
-      - [X] backend
-      - [X] frontend
-   1. Notify blog owners when a new comment is written in one of their posts
-      - [ ] backend
-      - [ ] frontend
+   ```docker-compose up -d```
+
+1. connect to rails service
+
+   ```
+   docker exec -it rails bash
+   bundle install
+   rake db:setup
+   rspec -> you can see coverage on "volume/blog-backend/coverage/index.html"
+   railss
+   ```
+
+1. connect to vue service (in another bash)
+
+   ```
+   docker exec -it vue bash
+   yarn
+   yarn jest --coverage -> you can see coverage on "volume/blog-frontend/coverage/lcov-report/index.html"
+   yarn serve
+   ```
+
+1. access 
+
+   ``` http://localhost:8080/#/login ```
