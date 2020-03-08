@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateBlog.vue is a valid component 1`] = `
+<div>
+  <p>Create Blog</p>
+  <div><label> Name: </label> <input type="text"></div>
+  <div><label> Visibility: </label> <select>
+      <option selected="selected" value="false">public</option>
+      <option value="true">private</option>
+    </select></div> <button>Create</button>
+</div>
+`;

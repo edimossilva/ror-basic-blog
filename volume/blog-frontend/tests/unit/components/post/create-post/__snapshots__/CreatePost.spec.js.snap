@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreatePost.vue is a valid component 1`] = `
+<div>
+  <p>Create Post</p>
+  <div><label> title: </label> <input type="text"></div> <button>Create</button>
+</div>
+`;

@@ -6,7 +6,5 @@ describe('CreateBlog.vue', () => {
     const wrapper = shallowMount(CreateBlog)
 
     expect(wrapper.isVueInstance()).toBeTruthy()
-    expect(wrapper).toMatchSnapshot()
-
   })
 })

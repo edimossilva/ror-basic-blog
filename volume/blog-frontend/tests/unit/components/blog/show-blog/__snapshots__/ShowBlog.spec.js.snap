@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowBlog.vue is a valid component 1`] = `
+<div>
+  <div>
+    <h3> Blog Name: mockName </h3>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>owner</th>
+        <th>private</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>mockTitle1</td>
+        <td>mockOwner</td>
+        <td>true</td>
+        <td><button>Show post</button></td>
+        <td><button>Delete post</button></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>mockTitle2</td>
+        <td>mockOwner</td>
+        <td>false</td>
+        <td><button>Show post</button></td>
+        <td><button>Delete post</button></td>
+      </tr>
+    </tbody>
+  </table> <button>Create Post</button>
+</div>
+`;

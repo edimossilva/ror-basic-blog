@@ -18,7 +18,11 @@ describe('Login.vue', () => {
   const mockToken = "mockToken"
 
   it('is a valid component', () => {
-    const wrapper = mount(Login)
+    const wrapper = mount(Login, {
+      stubs: {
+        modal: true
+      }
+    })
 
     expect(wrapper.isVueInstance()).toBeTruthy()
     expect(wrapper).toMatchSnapshot()
@@ -29,7 +33,11 @@ describe('Login.vue', () => {
       const doLoginSpy = jest.fn()
       Login.methods.doLogin = doLoginSpy
 
-      const wrapper = mount(Login)
+      const wrapper = mount(Login, {
+        stubs: {
+          modal: true
+        }
+      })
 
       beforeEach(() => {
         // fill username 
@@ -60,24 +68,22 @@ describe('Login.vue', () => {
       const wrapper = mount(Login, {
         localVue,
         router,
-        store
+        store,
+        stubs: {
+          modal: true
+        }
       })
 
+      const user = { token: "token", username: "username", userId: "userId", accessLevel: "accessLevel" }
       beforeEach(() => {
         const response = {
-          data: {
-            token: mockToken,
-            username: mockUsername
-          }
+          data: user
         }
         wrapper.vm.onLoginSuccess(response)
       });
 
       it('should save username in store', () => {
-        expect(store.state.username).toEqual(mockUsername)
-      })
-      it('should save token in store', () => {
-        expect(store.state.authToken).toEqual(mockToken)
+        expect(store.state.user).toEqual(user)
       })
     })
   })
