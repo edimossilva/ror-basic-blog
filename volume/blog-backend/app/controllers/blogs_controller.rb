@@ -8,7 +8,7 @@ class BlogsController < ApplicationController
     if BlogAccessLevel.can_create?(@current_user, blog)
       blog.save!
       BlogNotificationService.on_blog_created(blog)
-      render_created(blog)
+      render_created(BlogSerializer.new(blog))
     else
       render_unauthorized
     end
@@ -25,16 +25,16 @@ class BlogsController < ApplicationController
   end
 
   def index
-    return render_ok(Blog.only_public) if @current_user.nil?
+    return render_ok(Blog.only_public.map { |blog| BlogSerializer.new(blog) }) if @current_user.nil?
 
-    render_ok(Blog.all)
+    render_ok(Blog.all.map { |blog| BlogSerializer.new(blog) })
   end
 
   def show
     blog = Blog.find_by!(id: search_params[:id])
 
     if BlogAccessLevel.can_show?(@current_user, blog)
-      render_ok(blog.to_json(include: :posts))
+      render_ok(BlogSerializer.new(blog))
     else
       render_unauthorized
     end

@@ -7,7 +7,7 @@ class PostsController < ApplicationController
     post.user_id = @current_user.id
 
     if PostAccessLevel.can_create?(@current_user, post)
-      render_created(post) if post.save!
+      render_created(PostSerializer.new(post)) if post.save!
     else
       render_unauthorized
     end
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
     post = Post.find_by!(id: search_params[:id], blog_id: search_params[:blog_id])
 
     if PostAccessLevel.can_show?(@current_user, post)
-      render_ok(post)
+      render_ok(PostSerializer.new(post))
     else
       render_unauthorized
     end

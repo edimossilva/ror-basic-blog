@@ -3,8 +3,14 @@
     <h3>Show Post</h3>
 
     <div>
-      <h3> Post Title: {{ post.title }} </h3>
+      <p> Post Title: {{ post.title }} </p>
+      <p> Post Owner: {{ post.owner }} </p>
+
     </div>
+
+    <button @click="redirectToShowBlog">Show posts</button>
+    <button @click="redirectToCreatePost">Create post</button>
+
   </div>
 </template>
 
@@ -42,6 +48,15 @@ export default {
         .catch(this.showErrorMessage);
     },
 
+    redirectToShowBlog() {
+      this.$router.push({ name: "showBlog", params: { id: this.blogId } });
+    },
+    redirectToCreatePost() {
+      this.$router.push({
+        name: "createPost",
+        params: { blogId: this.blogId }
+      });
+    },
     updateData({ data: { data } }) {
       this.post = data;
     },

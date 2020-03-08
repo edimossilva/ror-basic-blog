@@ -1,7 +1,5 @@
 <template lang="">
   <div>
-    <h3>Show Blog</h3>
-
     <div>
       <h3> Blog Name: {{blog.name}} </h3>
     </div>
@@ -11,14 +9,17 @@
         <tr>
           <th>id</th>
           <th>title</th>
-          <th>show post</th>
-          <th>delete</th>
+          <th>owner</th>
+          <th>private</th>
         </tr>
       </thead>
       <tbody>
       <tr v-for="post in blog.posts" v-bind:key="post.id">
         <td>{{post.id}}</td>
         <td>{{post.title}}</td>
+        <td>{{post.owner}}</td>
+        <td>{{post.is_private}}</td>
+
         <td><button @click="redirectToShowPost(post.id)">Show post</button></td>
         <td><button @click="deletePost(post.id)">Delete post</button></td>
       </tr>
@@ -76,7 +77,9 @@ export default {
     },
 
     updateData({ data: { data } }) {
-      this.blog = JSON.parse(data);
+      // debugger; // eslint-disable-line
+
+      this.blog = data;
     },
 
     showErrorMessage({

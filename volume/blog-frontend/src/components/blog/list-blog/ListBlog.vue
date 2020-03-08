@@ -8,9 +8,7 @@
           <th>id</th>
           <th>name</th>
           <th>private</th>
-          <th>show</th>
-          <th>Delete</th>
-
+          <th>owner</th>
         </tr>
       </thead>
       <tbody>
@@ -18,6 +16,7 @@
           <td>{{blog.id}}</td>
           <td>{{blog.name}}</td>
           <td>{{blog.is_private}}</td>
+          <td>{{blog.owner}}</td>
           <td><button @click="redirectToShowBlog(blog.id)" class="ListBlog__showBlog-button-js">Show</button></td>
           <td><button @click="deleteBlog(blog.id)" class="ListBlog__deleteBlog-button-js">Delete</button></td>
         </tr>
