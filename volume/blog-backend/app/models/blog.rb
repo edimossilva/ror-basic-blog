@@ -7,4 +7,8 @@ class Blog < ApplicationRecord
   delegate :registred?, to: :user, prefix: true
 
   scope :only_public, -> { where('is_private = false') }
+
+  def public?
+    !is_private
+  end
 end

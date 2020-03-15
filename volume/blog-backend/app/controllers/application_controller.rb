@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::API
   include Auth::JsonWebTokenHelper
+  include Pundit
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
+  rescue_from Pundit::NotAuthorizedError, with: :render_unauthorized
 
   before_action :authorize_request
 

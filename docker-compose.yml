@@ -31,13 +31,13 @@ services:
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
       BUNDLE_PATH: "/home/edimossilva/.gems"
       HISTFILE: /home/edimossilva/.bashhistory
-      RAILS_MASTER_KEY: "a667717bf0a47475b0582547379c816d" 
+      RAILS_MASTER_KEY: "a667717bf0a47475b0582547379c816d"
         # "${RAILS_MASTER_KEY}"
     tty: true
     command: bash
     ports:
-      - "3000:3000"
-      
+      - "4000:3000"
+
   vue:
     build:
       context: "."
@@ -53,6 +53,6 @@ services:
     depends_on:
       - rails
 # docker-compose build
-# docker-compose up
-# docker exec -it ror-basic-blog_rails_1 bash
+# docker-compose up -d
+# docker exec -it rails bash
 # railss

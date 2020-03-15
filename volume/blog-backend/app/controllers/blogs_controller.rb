@@ -33,11 +33,9 @@ class BlogsController < ApplicationController
   def show
     blog = Blog.find_by!(id: search_params[:id])
 
-    if BlogAccessLevel.can_show?(@current_user, blog)
-      render_ok(BlogSerializer.new(blog))
-    else
-      render_unauthorized
-    end
+    authorize blog
+
+    render_ok(BlogSerializer.new(blog))
   end
 
   private
