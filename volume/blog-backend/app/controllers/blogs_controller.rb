@@ -5,13 +5,13 @@ class BlogsController < ApplicationController
   def create
     blog = Blog.new(create_params)
 
-    if BlogAccessLevel.can_create?(@current_user, blog)
-      blog.save!
-      BlogNotificationService.on_blog_created(blog)
-      render_created(BlogSerializer.new(blog))
-    else
-      render_unauthorized
-    end
+    authorize blog
+
+    blog.save!
+
+    BlogNotificationService.on_blog_created(blog)
+
+    render_created(BlogSerializer.new(blog))
   end
 
   def destroy
@@ -19,7 +19,9 @@ class BlogsController < ApplicationController
 
     authorize blog
 
-    render_destroyed if blog.destroy!
+    blog.destroy!
+
+    render_destroyed
   end
 
   def index

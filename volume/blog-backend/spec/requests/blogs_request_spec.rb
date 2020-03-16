@@ -89,7 +89,7 @@ RSpec.describe 'Blogs', type: :request do
 
             it 'contains error messages' do
               json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq('Unauthorized')
+              expect(json_response['error_message']).to eq('not allowed to create? this Blog')
             end
           end
           context 'when user_id is from another user' do
@@ -103,7 +103,7 @@ RSpec.describe 'Blogs', type: :request do
 
             it 'contains error messages' do
               json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq('Unauthorized')
+              expect(json_response['error_message']).to eq('not allowed to create? this Blog')
             end
           end
         end
