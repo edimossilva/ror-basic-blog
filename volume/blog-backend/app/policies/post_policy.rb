@@ -6,10 +6,8 @@ class PostPolicy
     @post = post
   end
 
-  def show?
-    return post.public? if user.nil?
-
-    true
+  def create?
+    return can_user_create? if user.has_access_level?
   end
 
   def destroy?
@@ -17,6 +15,12 @@ class PostPolicy
     return can_admin_delete? if user.admin?
 
     false
+  end
+
+  def show?
+    return post.public? if user.nil?
+
+    true
   end
 
   private
@@ -27,5 +31,9 @@ class PostPolicy
 
   def can_admin_delete?
     user.is_owner?(post) || post.user_registred?
+  end
+
+  def can_user_create?
+    user.is_owner?(post) && user.is_owner?(post.blog)
   end
 end

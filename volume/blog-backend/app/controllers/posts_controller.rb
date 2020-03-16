@@ -6,11 +6,11 @@ class PostsController < ApplicationController
     post = Post.new(create_params)
     post.user_id = @current_user.id
 
-    if PostAccessLevel.can_create?(@current_user, post)
-      render_created(PostSerializer.new(post)) if post.save!
-    else
-      render_unauthorized
-    end
+    authorize post
+
+    post.save!
+
+    render_created(PostSerializer.new(post))
   end
 
   def destroy
