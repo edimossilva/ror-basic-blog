@@ -29,11 +29,9 @@ class PostsController < ApplicationController
   def show
     post = Post.find_by!(id: search_params[:id], blog_id: search_params[:blog_id])
 
-    if PostAccessLevel.can_show?(@current_user, post)
-      render_ok(PostSerializer.new(post))
-    else
-      render_unauthorized
-    end
+    authorize post
+
+    render_ok(PostSerializer.new(post))
   end
 
   private
