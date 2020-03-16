@@ -16,14 +16,13 @@ class PostsController < ApplicationController
   def destroy
     post = Post.find_by!(id: search_params[:id], blog_id: search_params[:blog_id])
 
-    if PostAccessLevel.can_delete?(@current_user, post)
-      post.destroy!
+    authorize post
 
-      PostNotificationService.on_post_deleted(post)
-      render_destroyed
-    else
-      render_unauthorized
-    end
+    post.destroy!
+
+    PostNotificationService.on_post_deleted(post)
+
+    render_destroyed
   end
 
   def show
