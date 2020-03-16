@@ -17,11 +17,9 @@ class BlogsController < ApplicationController
   def destroy
     blog = Blog.find_by!(id: search_params[:id])
 
-    if BlogAccessLevel.can_delete?(@current_user, blog)
-      render_destroyed if blog.destroy!
-    else
-      render_unauthorized
-    end
+    authorize blog
+
+    render_destroyed if blog.destroy!
   end
 
   def index
