@@ -13,8 +13,6 @@ class PostPolicy
   def destroy?
     return can_registred_delete? if user.registred?
     return can_admin_delete? if user.admin?
-
-    false
   end
 
   def show?
