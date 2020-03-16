@@ -36,7 +36,7 @@ services:
     tty: true
     command: bash
     ports:
-      - "4000:3000"
+      - "3000:3000"
 
   vue:
     build:
