@@ -21,7 +21,6 @@ RSpec.describe 'Posts', type: :request do
     context 'when registred user' do
       context 'and is blog owner' do
         context 'and data is valid' do
-
           before { post "/blogs/#{registred_post1.blog.id}/posts", params: { title: title1 }, headers: registred_headers1 }
 
           it { expect(response).to have_http_status(:created) }
@@ -34,7 +33,6 @@ RSpec.describe 'Posts', type: :request do
         end
 
         context 'and data is invalid' do
-
           before { post "/blogs/#{registred_post1.blog.id}/posts", params: { title: '' }, headers: registred_headers1 }
 
           it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -46,11 +44,9 @@ RSpec.describe 'Posts', type: :request do
       end
 
       context 'and is not blog owner' do
-
         before { post "/blogs/#{registred_post1.blog.id}/posts", params: { title: title2 }, headers: registred_headers2 }
 
         it { expect(response).to have_http_status(:unauthorized) }
-
       end
     end
 
@@ -68,50 +64,40 @@ RSpec.describe 'Posts', type: :request do
       end
 
       context 'and is not blog owner' do
-
         before { post "/blogs/#{admin_post2.blog.id}/posts", params: { title: title2 }, headers: admin_headers1 }
 
         it { expect(response).to have_http_status(:unauthorized) }
-
       end
     end
   end
 
   describe '#destroy' do
     context 'when blog does not exist' do
-
       before { delete "/blogs/#{admin_post1.user.id}/posts/-1", headers: admin_headers1 }
 
       it { expect(response).to have_http_status(:not_found) }
-
     end
 
     context 'when user is registred' do
       context 'it destroys' do
         context 'when post belongs to himself' do
-
           before { delete "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: registred_headers1 }
 
           it { expect(response).to have_http_status(:no_content) }
-
         end
       end
 
       context 'it does NOT destroys' do
         context 'when post belongs other registred user' do
-
           before { delete "/blogs/#{registred_post2.blog.id}/posts/#{registred_post2.id}", headers: registred_headers1 }
 
           it { expect(response).to have_http_status(:unauthorized) }
-
         end
 
         context 'when post belongs other admin user' do
-
           before { delete "/blogs/#{admin_post1.blog.id}/posts/#{admin_post1.id}", headers: registred_headers1 }
 
           it { expect(response).to have_http_status(:unauthorized) }
-
         end
       end
     end
@@ -119,29 +105,23 @@ RSpec.describe 'Posts', type: :request do
     context 'when user is admin' do
       context 'it destroys' do
         context 'when post belongs to himself' do
-
           before { delete "/blogs/#{admin_post1.blog.id}/posts/#{admin_post1.id}", headers: admin_headers1 }
 
           it { expect(response).to have_http_status(:no_content) }
-
         end
 
         context 'when post belongs to registred user' do
-
           before { delete "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: admin_headers1 }
 
           it { expect(response).to have_http_status(:no_content) }
-
         end
       end
 
       context 'it does NOT destroys' do
         context 'when post belongs other admin user' do
-
           before { delete "/blogs/#{admin_post2.blog.id}/posts/#{admin_post2.id}", headers: admin_headers1 }
 
           it { expect(response).to have_http_status(:unauthorized) }
-
         end
       end
     end
@@ -157,7 +137,6 @@ RSpec.describe 'Posts', type: :request do
         before { get "/blogs/#{public_blog.id}/posts/#{public_post.id}" }
 
         it { expect(response).to have_http_status(:ok) }
-
       end
 
       context 'and blog is private' do
@@ -168,43 +147,34 @@ RSpec.describe 'Posts', type: :request do
         before { get "/blogs/#{private_blog.id}/posts/#{private_post.id}" }
 
         it { expect(response).to have_http_status(:unauthorized) }
-
       end
     end
 
     context 'when user is registered' do
       context 'and blog belongs to himself' do
-
         before { get "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: registred_headers1 }
 
         it { expect(response).to have_http_status(:ok) }
-
       end
 
       context 'and blog belongs to another user' do
-
         before { get "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: registred_headers2 }
 
         it { expect(response).to have_http_status(:ok) }
-
       end
     end
 
     context 'when user is admin' do
       context 'and blog belongs to himself' do
-
         before { get "/blogs/#{admin_post1.blog.id}/posts/#{admin_post1.id}", headers: admin_headers1 }
 
         it { expect(response).to have_http_status(:ok) }
-
       end
 
       context 'and blog belongs to another user' do
-
         before { get "/blogs/#{registred_post1.blog.id}/posts/#{registred_post1.id}", headers: admin_headers1 }
 
         it { expect(response).to have_http_status(:ok) }
-
       end
     end
   end

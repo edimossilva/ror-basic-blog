@@ -9,11 +9,11 @@ class User < ApplicationRecord
   has_many :blogs, dependent: :destroy
   has_many :posts, dependent: :destroy
 
-  def is_owner?(entity)
+  def owner?(entity)
     entity.user == self
   end
 
-  def has_access_level?
+  def access_level?
     registred? || admin?
   end
 

@@ -38,7 +38,6 @@ RSpec.describe 'Blogs', type: :request do
           before { post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers }
 
           it { expect(response).to have_http_status(:unauthorized) }
-
         end
 
         context 'when user is not valid' do
@@ -97,7 +96,6 @@ RSpec.describe 'Blogs', type: :request do
       before { delete '/blogs/-1', headers: admin_headers }
 
       it { expect(response).to have_http_status(:not_found) }
-
     end
 
     context 'when user is admin' do
@@ -106,7 +104,6 @@ RSpec.describe 'Blogs', type: :request do
           before { delete "/blogs/#{admin_user_blog.id}", headers: admin_headers }
 
           it { expect(response).to have_http_status(:no_content) }
-
         end
 
         context 'when blog belongs to registred user' do

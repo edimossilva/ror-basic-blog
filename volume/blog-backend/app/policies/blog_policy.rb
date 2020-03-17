@@ -7,7 +7,7 @@ class BlogPolicy
   end
 
   def create?
-    user.is_owner?(blog)
+    user.owner?(blog)
   end
 
   def destroy?
@@ -17,7 +17,7 @@ class BlogPolicy
   end
 
   def show?
-    user&.has_access_level? || blog.public?
+    user&.access_level? || blog.public?
   end
 
   private
@@ -25,6 +25,6 @@ class BlogPolicy
   def admin_can_delete?(user, blog)
     return true if blog.user_registred?
 
-    user.is_owner?(blog)
+    user.owner?(blog)
   end
 end

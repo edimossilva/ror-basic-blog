@@ -7,7 +7,7 @@ class PostPolicy
   end
 
   def create?
-    return can_user_create? if user.has_access_level?
+    return can_user_create? if user.access_level?
   end
 
   def destroy?
@@ -24,14 +24,14 @@ class PostPolicy
   private
 
   def can_registred_delete?
-    user.is_owner?(post)
+    user.owner?(post)
   end
 
   def can_admin_delete?
-    user.is_owner?(post) || post.user_registred?
+    user.owner?(post) || post.user_registred?
   end
 
   def can_user_create?
-    user.is_owner?(post) && user.is_owner?(post.blog)
+    user.owner?(post) && user.owner?(post.blog)
   end
 end
