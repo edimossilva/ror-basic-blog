@@ -21,13 +21,9 @@ RSpec.describe 'Blogs', type: :request do
   describe '#create' do
     context 'When receive valida data' do
       context 'when registred user' do
-        before do
-          post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: registred_headers
-        end
+        before { post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: registred_headers }
 
-        it 'responds :created' do
-          expect(response).to have_http_status(:created)
-        end
+        it { expect(response).to have_http_status(:created) }
 
         it 'contains fields from params' do
           json_response = JSON.parse(response.body)['data']
@@ -40,29 +36,22 @@ RSpec.describe 'Blogs', type: :request do
     context 'When receive invalida data' do
       context 'when token is invalid' do
         context 'when token has invalid decode' do
-          before do
-            post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers
-          end
-          it 'responds :unauthorized' do
-            expect(response).to have_http_status(:unauthorized)
-          end
+          before { post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers }
+
+          it { expect(response).to have_http_status(:unauthorized) }
+
         end
 
         context 'when user is not valid' do
-          before do
-            post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers
-          end
-          it 'responds :unauthorized' do
-            expect(response).to have_http_status(:unauthorized)
-          end
+          before { post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }, headers: invalid_headers }
+
+          it { expect(response).to have_http_status(:unauthorized) }
         end
       end
       context 'when registred user' do
         context 'when blog data is invalid' do
           context 'when name is empty' do
-            before do
-              post '/blogs', params: { name: '', is_private: is_private, user_id: registred_user.id }, headers: registred_headers
-            end
+            before { post '/blogs', params: { name: '', is_private: is_private, user_id: registred_user.id }, headers: registred_headers }
 
             it 'responds :unprocessable_entity' do
               expect(response).to have_http_status(:unprocessable_entity)
@@ -79,13 +68,9 @@ RSpec.describe 'Blogs', type: :request do
             end
           end
           context 'when user_id is empty' do
-            before do
-              post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: registred_headers
-            end
+            before { post '/blogs', params: { name: name, is_private: is_private, user_id: '' }, headers: registred_headers }
 
-            it 'responds :unauthorized' do
-              expect(response).to have_http_status(:unauthorized)
-            end
+            it { expect(response).to have_http_status(:unauthorized) }
 
             it 'contains error messages' do
               json_response = JSON.parse(response.body)
@@ -93,13 +78,9 @@ RSpec.describe 'Blogs', type: :request do
             end
           end
           context 'when user_id is from another user' do
-            before do
-              post '/blogs', params: { name: name, is_private: is_private, user_id: another_admin_user.id }, headers: registred_headers
-            end
+            before { post '/blogs', params: { name: name, is_private: is_private, user_id: another_admin_user.id }, headers: registred_headers }
 
-            it 'responds :unauthorized' do
-              expect(response).to have_http_status(:unauthorized)
-            end
+            it { expect(response).to have_http_status(:unauthorized) }
 
             it 'contains error messages' do
               json_response = JSON.parse(response.body)
@@ -109,70 +90,49 @@ RSpec.describe 'Blogs', type: :request do
         end
       end
       context 'when non registred user' do
-        before do
-          post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id }
-        end
-        it 'responds :unauthorized' do
-          expect(response).to have_http_status(:unauthorized)
-        end
+        before { post '/blogs', params: { name: name, is_private: is_private, user_id: registred_user.id } }
+
+        it { expect(response).to have_http_status(:unauthorized) }
       end
     end
   end
 
   describe '#destroy' do
     context 'when blog not found' do
-      before do
-        delete '/blogs/-1', headers: admin_headers
-      end
+      before { delete '/blogs/-1', headers: admin_headers }
 
-      it 'responds :not_found' do
-        expect(response).to have_http_status(:not_found)
-      end
+      it { expect(response).to have_http_status(:not_found) }
+
     end
 
     context '3.ii - when user is admin' do
       context 'it destroys' do
         context 'when blog belongs to himself' do
-          before do
-            delete "/blogs/#{admin_user_blog.id}", headers: admin_headers
-          end
+          before { delete "/blogs/#{admin_user_blog.id}", headers: admin_headers }
 
-          it 'responds :no_content' do
-            expect(response).to have_http_status(:no_content)
-          end
+          it { expect(response).to have_http_status(:no_content) }
+
         end
 
         context 'when blog belongs to registred user' do
-          before do
-            delete "/blogs/#{registred_user_blog.id}", headers: admin_headers
-          end
+          before { delete "/blogs/#{registred_user_blog.id}", headers: admin_headers }
 
-          it 'responds :no_content' do
-            expect(response).to have_http_status(:no_content)
-          end
+          it { expect(response).to have_http_status(:no_content) }
         end
       end
       context 'it does not destroys' do
         context 'when blog belongs to another admin' do
-          before do
-            delete "/blogs/#{admin_user_blog.id}", headers: another_admin_headers
-          end
+          before { delete "/blogs/#{admin_user_blog.id}", headers: another_admin_headers }
 
-          it 'responds :unauthorized' do
-            expect(response).to have_http_status(:unauthorized)
-          end
+          it { expect(response).to have_http_status(:unauthorized) }
         end
       end
     end
 
     context 'when user is not admin' do
-      before do
-        delete "/blogs/#{registred_user_blog.id}", headers: registred_user_headers
-      end
+      before { delete "/blogs/#{registred_user_blog.id}", headers: registred_user_headers }
 
-      it 'responds :unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
+      it { expect(response).to have_http_status(:unauthorized) }
     end
   end
 
@@ -184,13 +144,9 @@ RSpec.describe 'Blogs', type: :request do
     let!(:all_blogs_count) { Blog.all.count }
 
     context 'when user is non-registred' do
-      before do
-        get '/blogs'
-      end
+      before { get '/blogs' }
 
-      it 'responds :ok' do
-        expect(response).to have_http_status(:ok)
-      end
+      it { expect(response).to have_http_status(:ok) }
 
       it 'return publics blogs' do
         json_response = JSON.parse(response.body)['data']
@@ -199,13 +155,9 @@ RSpec.describe 'Blogs', type: :request do
     end
 
     context 'when user is registred' do
-      before do
-        get '/blogs', headers: registred_headers
-      end
+      before { get '/blogs', headers: registred_headers }
 
-      it 'responds :ok' do
-        expect(response).to have_http_status(:ok)
-      end
+      it { expect(response).to have_http_status(:ok) }
 
       it 'return all blogs' do
         json_response = JSON.parse(response.body)['data']
@@ -214,13 +166,9 @@ RSpec.describe 'Blogs', type: :request do
     end
 
     context 'when user is admin' do
-      before do
-        get '/blogs', headers: admin_headers
-      end
+      before { get '/blogs', headers: admin_headers }
 
-      it 'responds :ok' do
-        expect(response).to have_http_status(:ok)
-      end
+      it { expect(response).to have_http_status(:ok) }
 
       it 'return all blogs' do
         json_response = JSON.parse(response.body)['data']
@@ -229,13 +177,9 @@ RSpec.describe 'Blogs', type: :request do
     end
 
     context 'when token is on ly Basic' do
-      before do
-        get '/blogs', headers: { Authorization: 'Basic' }
-      end
+      before { get '/blogs', headers: { Authorization: 'Basic' } }
 
-      it 'responds :unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
+      it { expect(response).to have_http_status(:unauthorized) }
     end
   end
 
@@ -244,25 +188,17 @@ RSpec.describe 'Blogs', type: :request do
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
-        before do
-          get "/blogs/#{public_blog.id}"
-        end
+        before { get "/blogs/#{public_blog.id}" }
 
-        it 'responds :ok' do
-          expect(response).to have_http_status(:ok)
-        end
+        it { expect(response).to have_http_status(:ok) }
       end
 
       context 'and blog is private' do
         let!(:private_blog) { create(:blog, :private) }
 
-        before do
-          get "/blogs/#{private_blog.id}"
-        end
+        before { get "/blogs/#{private_blog.id}" }
 
-        it 'responds :unauthorized' do
-          expect(response).to have_http_status(:unauthorized)
-        end
+        it { expect(response).to have_http_status(:unauthorized) }
       end
     end
 
@@ -270,25 +206,17 @@ RSpec.describe 'Blogs', type: :request do
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
-        before do
-          get "/blogs/#{public_blog.id}", headers: registred_user_headers
-        end
+        before { get "/blogs/#{public_blog.id}", headers: registred_user_headers }
 
-        it 'responds :ok' do
-          expect(response).to have_http_status(:ok)
-        end
+        it { expect(response).to have_http_status(:ok) }
       end
 
       context 'and blog is private' do
         let!(:private_blog) { create(:blog, :private) }
 
-        before do
-          get "/blogs/#{private_blog.id}", headers: registred_user_headers
-        end
+        before { get "/blogs/#{private_blog.id}", headers: registred_user_headers }
 
-        it 'responds :ok' do
-          expect(response).to have_http_status(:ok)
-        end
+        it { expect(response).to have_http_status(:ok) }
       end
     end
 
@@ -296,25 +224,17 @@ RSpec.describe 'Blogs', type: :request do
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
-        before do
-          get "/blogs/#{public_blog.id}", headers: admin_headers
-        end
+        before { get "/blogs/#{public_blog.id}", headers: admin_headers }
 
-        it 'responds :ok' do
-          expect(response).to have_http_status(:ok)
-        end
+        it { expect(response).to have_http_status(:ok) }
       end
 
       context 'and blog is private' do
         let!(:private_blog) { create(:blog, :private) }
 
-        before do
-          get "/blogs/#{private_blog.id}", headers: admin_headers
-        end
+        before { get "/blogs/#{private_blog.id}", headers: admin_headers }
 
-        it 'responds :ok' do
-          expect(response).to have_http_status(:ok)
-        end
+        it { expect(response).to have_http_status(:ok) }
       end
     end
   end
