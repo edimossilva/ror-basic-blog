@@ -105,7 +105,7 @@ RSpec.describe 'Blogs', type: :request do
 
     end
 
-    context '3.ii - when user is admin' do
+    context 'when user is admin' do
       context 'it destroys' do
         context 'when blog belongs to himself' do
           before { delete "/blogs/#{admin_user_blog.id}", headers: admin_headers }
@@ -184,7 +184,7 @@ RSpec.describe 'Blogs', type: :request do
   end
 
   describe '#show' do
-    context '1.i - when user is non-registered' do
+    context 'when user is non-registered' do
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
@@ -202,7 +202,7 @@ RSpec.describe 'Blogs', type: :request do
       end
     end
 
-    context '2.iv - when user is registered' do
+    context 'when user is registered' do
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
@@ -220,7 +220,7 @@ RSpec.describe 'Blogs', type: :request do
       end
     end
 
-    context '3.i - when user is admin' do
+    context 'when user is admin' do
       context 'and blog is public' do
         let!(:public_blog) { create(:blog, :public) }
 
