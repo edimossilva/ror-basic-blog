@@ -26,7 +26,6 @@ RSpec.describe 'Blogs', type: :request do
         it { expect(response).to have_http_status(:created) }
 
         it 'contains fields from params' do
-          json_response = JSON.parse(response.body)['data']
           expect(json_response['name']).to eq(name)
           expect(json_response['is_private']).to eq(is_private)
         end
@@ -58,13 +57,11 @@ RSpec.describe 'Blogs', type: :request do
             end
 
             it 'contains error messages' do
-              json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
+              expect(json_response_error).to eq("Validation failed: Name can't be blank")
             end
 
             it 'error is name: cant be empty' do
-              json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq("Validation failed: Name can't be blank")
+              expect(json_response_error).to eq("Validation failed: Name can't be blank")
             end
           end
           context 'when user_id is empty' do
@@ -73,8 +70,7 @@ RSpec.describe 'Blogs', type: :request do
             it { expect(response).to have_http_status(:unauthorized) }
 
             it 'contains error messages' do
-              json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq('not allowed to create? this Blog')
+              expect(json_response_error).to eq('not allowed to create? this Blog')
             end
           end
           context 'when user_id is from another user' do
@@ -83,8 +79,7 @@ RSpec.describe 'Blogs', type: :request do
             it { expect(response).to have_http_status(:unauthorized) }
 
             it 'contains error messages' do
-              json_response = JSON.parse(response.body)
-              expect(json_response['error_message']).to eq('not allowed to create? this Blog')
+              expect(json_response_error).to eq('not allowed to create? this Blog')
             end
           end
         end
@@ -149,7 +144,6 @@ RSpec.describe 'Blogs', type: :request do
       it { expect(response).to have_http_status(:ok) }
 
       it 'return publics blogs' do
-        json_response = JSON.parse(response.body)['data']
         expect(json_response.count).to eq(public_blogs_count)
       end
     end
@@ -160,7 +154,6 @@ RSpec.describe 'Blogs', type: :request do
       it { expect(response).to have_http_status(:ok) }
 
       it 'return all blogs' do
-        json_response = JSON.parse(response.body)['data']
         expect(json_response.count).to eq(all_blogs_count)
       end
     end
@@ -171,7 +164,6 @@ RSpec.describe 'Blogs', type: :request do
       it { expect(response).to have_http_status(:ok) }
 
       it 'return all blogs' do
-        json_response = JSON.parse(response.body)['data']
         expect(json_response.count).to eq(all_blogs_count)
       end
     end
