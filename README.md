@@ -19,12 +19,12 @@
 
 1. run tests rails
    ```
-     docker-compose run rails rspec
+     docker-compose exec rails rspec
    ```
 
 1. run tests vue
    ```
-     docker-compose run vue yarn jest --coverage
+     docker-compose exec vue yarn jest --coverage
    ```
 
 1. access 
