@@ -1,32 +1,35 @@
 # install
 
 1. build containers
+   ```
+     docker-compose build
+   ```
 
-   ```docker-compose build```
+1. Setup database
+   ```
+     docker-compose run rails rake db:create
+     docker-compose run rails rake db:migrate
+     docker-compose run rails rake db:seed
+   ```
 
 1. start containers in background
-
-   ```docker-compose up -d```
-
-1. connect to rails service
-
    ```
-   docker exec -it rails bash
-   bundle install
-   rake db:setup
-   rspec -> you can see coverage on "volume/blog-backend/coverage/index.html"
-   railss
+     docker-compose up -d
    ```
 
-1. connect to vue service (in another bash)
-
+1. run tests rails
    ```
-   docker exec -it vue bash
-   yarn
-   yarn jest --coverage -> you can see coverage on "volume/blog-frontend/coverage/lcov-report/index.html"
-   yarn serve
+     docker-compose run rails rspec
+   ```
+
+1. run tests vue
+   ```
+     docker-compose run vue yarn jest --coverage
    ```
 
 1. access 
 
-   ``` http://localhost:8080/#/login ```
+   ``` 
+     http://localhost:8080/
+   ```
+
