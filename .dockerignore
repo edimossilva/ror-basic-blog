@@ -1,2 +1,3 @@
 # ignore from docker context user
+./volume/global/pg_filenode.map
 ./volume/global

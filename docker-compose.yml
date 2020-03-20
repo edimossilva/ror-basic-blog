@@ -44,6 +44,7 @@ services:
     depends_on:
       - rails
 # docker-compose build
-# docker-composer run rails rake db:create
+# docker-compose run rails rake db:create
+# docker-compose run rails rake db:migrate
 # docker-compose up -d
 # localhost:3000
