@@ -33,4 +33,3 @@ WORKDIR /app
 COPY ./volume/blog-backend/Gemfile /app/Gemfile
 COPY ./volume/blog-backend/Gemfile.lock /app/Gemfile.lock
 RUN bundle install
-COPY ./volume/blog-backend /app

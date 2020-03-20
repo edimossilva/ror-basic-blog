@@ -18,6 +18,8 @@ services:
       context: "."
       dockerfile: "Dockerfile_rails"
     container_name: rails
+    volumes:
+      - ./volume/blog-backend:/app
     depends_on:
       - db
     environment:
@@ -35,16 +37,14 @@ services:
       dockerfile: "Dockerfile_vue"
     container_name: vue
     volumes:
-      - ./volume:/home/edimossilva/development/volume
+      - ./volume/blog-frontend:/app
     ports:
       - "8080:8080"
     tty: true
-    command: bash
-    working_dir: /home/edimossilva/development/volume/blog-frontend
-    depends_on:
-      - rails
+    command: yarn serve
 # docker-compose build
 # docker-compose run rails rake db:create
 # docker-compose run rails rake db:migrate
+# docker-compose run rails rake db:seed
 # docker-compose up -d
 # localhost:3000

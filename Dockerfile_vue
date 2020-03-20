@@ -1,10 +1,14 @@
 FROM node:10
 
-#using default volume
-WORKDIR /home/edimossilva/development/volume
+# set working directory
+WORKDIR /app
 
-# utils
 RUN yarn global add @vue/cli
 
+# install and cache app dependencies
+COPY ./volume/blog-frontend/package.json /app/package.json
+COPY ./volume/blog-frontend/yarn.lock /app/yarn.lock
+
 #install dependencies
-RUN yarn
+RUN yarn install
+
