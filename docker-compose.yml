@@ -41,7 +41,7 @@ services:
     ports:
       - "8080:8080"
     tty: true
-    command: yarn serve
+    command: bash -c "yarn && yarn serve"
 # docker-compose build
 # docker-compose run rails rake db:create
 # docker-compose run rails rake db:migrate
