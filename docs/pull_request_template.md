@@ -7,11 +7,25 @@
 - [ ] System test is not necessary
 - [ ] Feature is working on heroku
 
-#### Steps to reproduce?
- 1. step 1
- 1. step 2
- 1. setp 3
 
-#### Images or Gifs or Videos?
-- [ ] Yes
-- [ ] No
+#### Steps to reproduce?
+- [ ] Does not apply
+
+**OR**
+
+1. first step
+1. second step
+
+
+#### Screenshots
+- [ ] Does not apply
+
+**OR**
+* Before
+
+* After
+
+#### Layout
+- [ ] Looks good on large screens
+- [ ] Looks good on mobile
+- [ ] Does not apply
